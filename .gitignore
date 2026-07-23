@@ -2,8 +2,11 @@
 __pycache__/
 *.pyc
 data/
-kaggle/droid_smoke_output/
-kaggle/smoke_dataset/*.jpg
+kaggle/
+modal/
+NOTES.md
+REPORT.md
+FINDINGS.md
 results/drift_videos/
 results/drift_videos_uavdt/
 results/composite_videos/
@@ -11,4 +14,6 @@ results/protocol_a_records.json
 results/uavdt_protocol_a_records.json
 results/vace_first_result/
 results/vace_second_result/
+results/droid_slam_first_result/
+results/droid_slam_trajectory/
 .ipynb_checkpoints/
