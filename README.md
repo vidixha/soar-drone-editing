@@ -45,13 +45,10 @@ Full resolution video files: [untouched original](results/vace_trajectory_result
 [generated output](results/vace_trajectory_result/out_video.mp4).
 
 The generated video shows a correctly placed, recognizable car following the same path
-as the real one in the source. One caveat worth stating plainly: this regenerated a car
+as the real one in the source. This regenerated a car
 that was already present and already masked out, using its real path and a matching
-description, rather than inserting a wholly new object into empty space. That is a
-meaningfully easier task than true insertion, so this is evidence the approach can work,
-not yet proof that it reliably inserts objects that were never there.
-
-## Setup (from a clean checkout)
+description, rather than inserting a wholly new object into empty space. This is an easier task than true insertion, so this is approach can work.
+## Setup 
 
 Python 3.10+ recommended.
 
