@@ -13,12 +13,16 @@ of the geometry, see the example below and `REPORT.md` for the full account.
 VACE (a pretrained AI video editor) was given a mask following the real, geometry-derived
 path of a car already driving through this footage, instead of an arbitrary fixed box.
 
-- [Source video (unedited)](results/vace_trajectory_result/src_video.mp4)
-- [Generated output](results/vace_trajectory_result/out_video.mp4)
+| Source (unedited) | VACE output |
+|---|---|
+| ![Source video](results/vace_trajectory_result/src_video.gif) | ![Generated output](results/vace_trajectory_result/out_video.gif) |
 
-Click each link to preview it in GitHub's file viewer. The generated video shows a
-correctly placed, recognizable car following the same path as the real one in the source,
-the first result in this project where an inserted object actually looked right.
+Full-resolution video files: [source](results/vace_trajectory_result/src_video.mp4),
+[generated output](results/vace_trajectory_result/out_video.mp4).
+
+The generated video shows a correctly placed, recognizable car following the same path
+as the real one in the source, the first result in this project where an inserted object
+actually looked right.
 
 ## Setup (from a clean checkout)
 
