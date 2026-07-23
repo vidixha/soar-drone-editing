@@ -13,11 +13,18 @@ of the geometry, see the example below and `REPORT.md` for the full account.
 VACE (a pretrained AI video editor) was given a mask following the real, geometry-derived
 path of a car already driving through this footage, instead of an arbitrary fixed box.
 
-| Source (unedited) | VACE output |
-|---|---|
-| ![Source video](results/vace_trajectory_result/src_video.gif) | ![Generated output](results/vace_trajectory_result/out_video.gif) |
+| Untouched original | Source as VACE saved it | VACE output |
+|---|---|---|
+| ![Untouched original](results/vace_trajectory_result/untouched_original.gif) | ![Source video](results/vace_trajectory_result/src_video.gif) | ![Generated output](results/vace_trajectory_result/out_video.gif) |
 
-Full-resolution video files: [source](results/vace_trajectory_result/src_video.mp4),
+The middle column is not a byte-identical copy of the untouched original: VACE resizes
+and renormalizes every input through its own tensor pipeline before saving it, even the
+unedited reference copy, which is why it looks visibly different in brightness and color
+from the true source frames on the left. Both the middle and right columns went through
+that same preprocessing, so the comparison between them is still fair.
+
+Full-resolution video files: [untouched original](results/vace_trajectory_result/untouched_original.gif),
+[source as VACE saved it](results/vace_trajectory_result/src_video.mp4),
 [generated output](results/vace_trajectory_result/out_video.mp4).
 
 The generated video shows a correctly placed, recognizable car following the same path
