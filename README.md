@@ -28,8 +28,7 @@ Full-resolution video files: [untouched original](results/vace_trajectory_result
 [generated output](results/vace_trajectory_result/out_video.mp4).
 
 The generated video shows a correctly placed, recognizable car following the same path
-as the real one in the source, the first result in this project where an inserted object
-actually looked right.
+as the real one in the source.
 
 ## Setup (from a clean checkout)
 
