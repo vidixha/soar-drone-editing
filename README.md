@@ -30,7 +30,7 @@ VACE (a pretrained AI video editor) was given a mask following the real,
 geometry derived path of a car already driving through this footage, instead of an
 arbitrary fixed box, along with a text description of what to draw there.
 
-| Untouched original | Source as VACE saved it | VACE output |
+| Original | Source as VACE saves it | VACE output |
 |---|---|---|
 | ![Untouched original](results/vace_trajectory_result/untouched_original.gif) | ![Source video](results/vace_trajectory_result/src_video.gif) | ![Generated output](results/vace_trajectory_result/out_video.gif) |
 
