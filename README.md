@@ -1,10 +1,10 @@
 # Aerial Cross-View Box Propagation POC
 
-Answers one question: does a learned cross-view module beat simple geometry for
+Does a learned cross-view module beat simple geometry for
 tracking a box through camera motion, on ground-level video, and does that result
 still hold on aerial drone video?
 
-No training was done anywhere in this project. The core geometry method is training
+The core geometry method is training
 free and uses no model at all. A later extension tested a pretrained generative video
 model (VACE) on top of the geometry.
 
@@ -122,7 +122,7 @@ cached under `data/`; subsequent runs reuse the cache.
 
 ## Further directions
 
-- Insert a genuinely new object (not previously present in the footage) along a real,
+- Insert a new object (not previously present in the footage) along a real,
   geometry-computed path, as the direct test of true insertion rather than masked
   object regeneration.
 - Repeat the object-insertion test on several more real tracked objects to confirm the
