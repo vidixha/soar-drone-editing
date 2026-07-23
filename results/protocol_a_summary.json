@@ -1,0 +1,2661 @@
+{
+  "overall": {
+    "static_box": {
+      "n": 4583,
+      "iou_mean": 0.14574955762439826,
+      "iou_median": 0.0,
+      "iou_std": 0.2455021982617029,
+      "center_px_mean": 136.084123669509,
+      "center_px_median": 67.97793759742936,
+      "center_norm_mean": 1.8912173642934949,
+      "scale_dev_mean": 0.23797931406803044
+    },
+    "linear_interp": {
+      "n": 4583,
+      "iou_mean": 0.14574955762439826,
+      "iou_median": 0.0,
+      "iou_std": 0.2455021982617029,
+      "center_px_mean": 136.084123669509,
+      "center_px_median": 67.97793759742936,
+      "center_norm_mean": 1.8912173642934949,
+      "scale_dev_mean": 0.23797931406803044
+    },
+    "homography_chained": {
+      "n": 4583,
+      "iou_mean": 0.35775909393623073,
+      "iou_median": 0.3293981425949059,
+      "iou_std": 0.3204679536804747,
+      "center_px_mean": 36.34226921348313,
+      "center_px_median": 17.57850656404728,
+      "center_norm_mean": 0.5717423880316818,
+      "scale_dev_mean": 0.21927248282583342
+    },
+    "homography_direct": {
+      "n": 4583,
+      "iou_mean": 0.3381617696371791,
+      "iou_median": 0.2468773978720734,
+      "iou_std": 0.34284453841109014,
+      "center_px_mean": 58.48676658986426,
+      "center_px_median": 21.873868611256075,
+      "center_norm_mean": 0.8360475872457351,
+      "scale_dev_mean": 0.28045737141990496
+    }
+  },
+  "by_magnitude": {
+    "low": {
+      "static_box": {
+        "n": 2406,
+        "iou_mean": 0.162257923390521,
+        "iou_median": 0.0,
+        "iou_std": 0.2463578035361891,
+        "center_px_mean": 118.82226285989181,
+        "center_px_median": 67.21321432199898,
+        "center_norm_mean": 1.6747865631849075,
+        "scale_dev_mean": 0.28138786190690185
+      },
+      "linear_interp": {
+        "n": 2406,
+        "iou_mean": 0.162257923390521,
+        "iou_median": 0.0,
+        "iou_std": 0.2463578035361891,
+        "center_px_mean": 118.82226285989181,
+        "center_px_median": 67.21321432199898,
+        "center_norm_mean": 1.6747865631849075,
+        "scale_dev_mean": 0.28138786190690185
+      },
+      "homography_chained": {
+        "n": 2406,
+        "iou_mean": 0.23269687377743561,
+        "iou_median": 0.08872625236427029,
+        "iou_std": 0.27640548102069284,
+        "center_px_mean": 48.376758009934726,
+        "center_px_median": 31.647779429892402,
+        "center_norm_mean": 0.7844450658974074,
+        "scale_dev_mean": 0.26735386018980983
+      },
+      "homography_direct": {
+        "n": 2406,
+        "iou_mean": 0.19505133290351453,
+        "iou_median": 0.0,
+        "iou_std": 0.27948727131938544,
+        "center_px_mean": 87.65613907312829,
+        "center_px_median": 39.5417252265526,
+        "center_norm_mean": 1.2677281592217335,
+        "scale_dev_mean": 0.39084899833616277
+      }
+    },
+    "medium": {
+      "static_box": {
+        "n": 883,
+        "iou_mean": 0.22300810041986982,
+        "iou_median": 0.07450523864959209,
+        "iou_std": 0.29422853235294416,
+        "center_px_mean": 103.87478339417524,
+        "center_px_median": 40.56168142471414,
+        "center_norm_mean": 0.9785545186325438,
+        "scale_dev_mean": 0.13414801245953656
+      },
+      "linear_interp": {
+        "n": 883,
+        "iou_mean": 0.22300810041986982,
+        "iou_median": 0.07450523864959209,
+        "iou_std": 0.29422853235294416,
+        "center_px_mean": 103.87478339417524,
+        "center_px_median": 40.56168142471414,
+        "center_norm_mean": 0.9785545186325438,
+        "scale_dev_mean": 0.13414801245953656
+      },
+      "homography_chained": {
+        "n": 883,
+        "iou_mean": 0.5795866350419365,
+        "iou_median": 0.6721753363299349,
+        "iou_std": 0.2900543569387454,
+        "center_px_mean": 22.083183283112948,
+        "center_px_median": 8.296173824800793,
+        "center_norm_mean": 0.2317720363574356,
+        "scale_dev_mean": 0.1400101179535754
+      },
+      "homography_direct": {
+        "n": 883,
+        "iou_mean": 0.6185250580647375,
+        "iou_median": 0.710080276426692,
+        "iou_std": 0.2879149553582956,
+        "center_px_mean": 13.590765516721545,
+        "center_px_median": 5.727674557750541,
+        "center_norm_mean": 0.15430321323774845,
+        "scale_dev_mean": 0.12475952992283344
+      }
+    },
+    "high": {
+      "static_box": {
+        "n": 1294,
+        "iou_mean": 0.06233501255353834,
+        "iou_median": 0.0,
+        "iou_std": 0.17321981130601885,
+        "center_px_mean": 190.1589958264323,
+        "center_px_median": 109.71677816846628,
+        "center_norm_mean": 2.9164212284247792,
+        "scale_dev_mean": 0.22812001980216917
+      },
+      "linear_interp": {
+        "n": 1294,
+        "iou_mean": 0.06233501255353834,
+        "iou_median": 0.0,
+        "iou_std": 0.17321981130601885,
+        "center_px_mean": 190.1589958264323,
+        "center_px_median": 109.71677816846628,
+        "center_norm_mean": 2.9164212284247792,
+        "scale_dev_mean": 0.22812001980216917
+      },
+      "homography_chained": {
+        "n": 1294,
+        "iou_mean": 0.4389229138015494,
+        "iou_median": 0.48984976452064616,
+        "iou_std": 0.3082590229139169,
+        "center_px_mean": 23.69605038214955,
+        "center_px_median": 12.60997616369608,
+        "center_norm_mean": 0.40824252526771204,
+        "scale_dev_mean": 0.18395940264382152
+      },
+      "homography_direct": {
+        "n": 1294,
+        "iou_mean": 0.4129399204097161,
+        "iou_median": 0.462127169101734,
+        "iou_std": 0.3423272305216921,
+        "center_px_mean": 34.886811993922834,
+        "center_px_median": 13.42861240094814,
+        "center_norm_mean": 0.4986108222339888,
+        "scale_dev_mean": 0.18144573284293294
+      }
+    }
+  },
+  "by_motion_type": {
+    "translation_dominant": {
+      "static_box": {
+        "n": 4583,
+        "iou_mean": 0.14574955762439826,
+        "iou_median": 0.0,
+        "iou_std": 0.2455021982617029,
+        "center_px_mean": 136.084123669509,
+        "center_px_median": 67.97793759742936,
+        "center_norm_mean": 1.8912173642934949,
+        "scale_dev_mean": 0.23797931406803044
+      },
+      "linear_interp": {
+        "n": 4583,
+        "iou_mean": 0.14574955762439826,
+        "iou_median": 0.0,
+        "iou_std": 0.2455021982617029,
+        "center_px_mean": 136.084123669509,
+        "center_px_median": 67.97793759742936,
+        "center_norm_mean": 1.8912173642934949,
+        "scale_dev_mean": 0.23797931406803044
+      },
+      "homography_chained": {
+        "n": 4583,
+        "iou_mean": 0.35775909393623073,
+        "iou_median": 0.3293981425949059,
+        "iou_std": 0.3204679536804747,
+        "center_px_mean": 36.34226921348313,
+        "center_px_median": 17.57850656404728,
+        "center_norm_mean": 0.5717423880316818,
+        "scale_dev_mean": 0.21927248282583342
+      },
+      "homography_direct": {
+        "n": 4583,
+        "iou_mean": 0.3381617696371791,
+        "iou_median": 0.2468773978720734,
+        "iou_std": 0.34284453841109014,
+        "center_px_mean": 58.48676658986426,
+        "center_px_median": 21.873868611256075,
+        "center_norm_mean": 0.8360475872457351,
+        "scale_dev_mean": 0.28045737141990496
+      }
+    }
+  },
+  "by_altitude_change": {
+    "medium": {
+      "static_box": {
+        "n": 1660,
+        "iou_mean": 0.1163887476568129,
+        "iou_median": 0.0,
+        "iou_std": 0.24994987722107756,
+        "center_px_mean": 113.91175569019452,
+        "center_px_median": 105.4490218084901,
+        "center_norm_mean": 1.7874506901980547,
+        "scale_dev_mean": 0.36013896173090915
+      },
+      "linear_interp": {
+        "n": 1660,
+        "iou_mean": 0.1163887476568129,
+        "iou_median": 0.0,
+        "iou_std": 0.24994987722107756,
+        "center_px_mean": 113.91175569019452,
+        "center_px_median": 105.4490218084901,
+        "center_norm_mean": 1.7874506901980547,
+        "scale_dev_mean": 0.36013896173090915
+      },
+      "homography_chained": {
+        "n": 1660,
+        "iou_mean": 0.2143545767638145,
+        "iou_median": 0.02623579022179841,
+        "iou_std": 0.281387126565102,
+        "center_px_mean": 57.264641292500585,
+        "center_px_median": 46.3570909543458,
+        "center_norm_mean": 0.9003766414817702,
+        "scale_dev_mean": 0.3317229135436342
+      },
+      "homography_direct": {
+        "n": 1660,
+        "iou_mean": 0.24095200008280382,
+        "iou_median": 0.01418972357377295,
+        "iou_std": 0.3039996021586668,
+        "center_px_mean": 80.43937852969151,
+        "center_px_median": 37.907877565997595,
+        "center_norm_mean": 1.1850747168160927,
+        "scale_dev_mean": 0.46043882104778855
+      }
+    },
+    "low": {
+      "static_box": {
+        "n": 1359,
+        "iou_mean": 0.22984302370571563,
+        "iou_median": 0.13863725876329264,
+        "iou_std": 0.26069265233670147,
+        "center_px_mean": 130.7218773357236,
+        "center_px_median": 28.398943642325854,
+        "center_norm_mean": 1.3309769124491386,
+        "scale_dev_mean": 0.09697180732226746
+      },
+      "linear_interp": {
+        "n": 1359,
+        "iou_mean": 0.22984302370571563,
+        "iou_median": 0.13863725876329264,
+        "iou_std": 0.26069265233670147,
+        "center_px_mean": 130.7218773357236,
+        "center_px_median": 28.398943642325854,
+        "center_norm_mean": 1.3309769124491386,
+        "scale_dev_mean": 0.09697180732226746
+      },
+      "homography_chained": {
+        "n": 1359,
+        "iou_mean": 0.3912647123452723,
+        "iou_median": 0.3995795563622957,
+        "iou_std": 0.2971904249141767,
+        "center_px_mean": 23.300509560853364,
+        "center_px_median": 14.628634821271845,
+        "center_norm_mean": 0.37158471258191944,
+        "scale_dev_mean": 0.1075563791569044
+      },
+      "homography_direct": {
+        "n": 1359,
+        "iou_mean": 0.2656130894833736,
+        "iou_median": 0.11688729889076072,
+        "iou_std": 0.30647154182414055,
+        "center_px_mean": 67.62984014091508,
+        "center_px_median": 27.627756827472957,
+        "center_norm_mean": 0.9091867959132123,
+        "scale_dev_mean": 0.1690829820555959
+      }
+    },
+    "high": {
+      "static_box": {
+        "n": 1564,
+        "iou_mean": 0.10384158073289022,
+        "iou_median": 0.0,
+        "iou_std": 0.20599747160145937,
+        "center_px_mean": 164.27684976495428,
+        "center_px_median": 73.10950690573696,
+        "center_norm_mean": 2.488160748599704,
+        "scale_dev_mean": 0.23084644101631246
+      },
+      "linear_interp": {
+        "n": 1564,
+        "iou_mean": 0.10384158073289022,
+        "iou_median": 0.0,
+        "iou_std": 0.20599747160145937,
+        "center_px_mean": 164.27684976495428,
+        "center_px_median": 73.10950690573696,
+        "center_norm_mean": 2.488160748599704,
+        "scale_dev_mean": 0.23084644101631246
+      },
+      "homography_chained": {
+        "n": 1564,
+        "iou_mean": 0.4808520370873324,
+        "iou_median": 0.5546543933139139,
+        "iou_std": 0.319692009874589,
+        "center_px_mean": 25.46798130859494,
+        "center_px_median": 10.024066430182515,
+        "center_norm_mean": 0.39685838560781966,
+        "scale_dev_mean": 0.19699273211900803
+      },
+      "homography_direct": {
+        "n": 1564,
+        "iou_mean": 0.5043778014717599,
+        "iou_median": 0.6161843278039052,
+        "iou_std": 0.35000320463968504,
+        "center_px_mean": 27.24202696327138,
+        "center_px_median": 6.992856515951543,
+        "center_norm_mean": 0.40204424986344967,
+        "scale_dev_mean": 0.18620455093640714
+      }
+    }
+  },
+  "by_occlusion": {
+    "occluded": {
+      "static_box": {
+        "n": 2238,
+        "iou_mean": 0.1232732869758559,
+        "iou_median": 0.0,
+        "iou_std": 0.2288944581887583,
+        "center_px_mean": 132.13521372310524,
+        "center_px_median": 85.47350595507929,
+        "center_norm_mean": 1.7118049135528746,
+        "scale_dev_mean": 0.29326698840551557
+      },
+      "linear_interp": {
+        "n": 2238,
+        "iou_mean": 0.1232732869758559,
+        "iou_median": 0.0,
+        "iou_std": 0.2288944581887583,
+        "center_px_mean": 132.13521372310524,
+        "center_px_median": 85.47350595507929,
+        "center_norm_mean": 1.7118049135528746,
+        "scale_dev_mean": 0.29326698840551557
+      },
+      "homography_chained": {
+        "n": 2238,
+        "iou_mean": 0.331649911168024,
+        "iou_median": 0.24943666964919475,
+        "iou_std": 0.3329798409783023,
+        "center_px_mean": 46.83686587292105,
+        "center_px_median": 24.868889363924364,
+        "center_norm_mean": 0.6921765962781221,
+        "scale_dev_mean": 0.2615101522895055
+      },
+      "homography_direct": {
+        "n": 2238,
+        "iou_mean": 0.33954816941887384,
+        "iou_median": 0.24140230791199077,
+        "iou_std": 0.34986859044679525,
+        "center_px_mean": 60.54506709824893,
+        "center_px_median": 26.30404122623166,
+        "center_norm_mean": 0.8673621709698621,
+        "scale_dev_mean": 0.3351896720900948
+      }
+    },
+    "visible": {
+      "static_box": {
+        "n": 2345,
+        "iou_mean": 0.16720025856744206,
+        "iou_median": 0.0,
+        "iou_std": 0.2585502391951188,
+        "center_px_mean": 139.85284881238817,
+        "center_px_median": 49.040799340956916,
+        "center_norm_mean": 2.0624434047018143,
+        "scale_dev_mean": 0.18521436090500623
+      },
+      "linear_interp": {
+        "n": 2345,
+        "iou_mean": 0.16720025856744206,
+        "iou_median": 0.0,
+        "iou_std": 0.2585502391951188,
+        "center_px_mean": 139.85284881238817,
+        "center_px_median": 49.040799340956916,
+        "center_norm_mean": 2.0624434047018143,
+        "scale_dev_mean": 0.18521436090500623
+      },
+      "homography_chained": {
+        "n": 2345,
+        "iou_mean": 0.38267694085957676,
+        "iou_median": 0.39275241543010386,
+        "iou_std": 0.3059827070172327,
+        "center_px_mean": 26.326530482642166,
+        "center_px_median": 14.161667975904088,
+        "center_norm_mean": 0.4568034720165286,
+        "scale_dev_mean": 0.1789620758920602
+      },
+      "homography_direct": {
+        "n": 2345,
+        "iou_mean": 0.3368386298881671,
+        "iou_median": 0.25544966874315006,
+        "iou_std": 0.33599874141011027,
+        "center_px_mean": 56.52238427098798,
+        "center_px_median": 19.66529909109473,
+        "center_norm_mean": 0.8061618565955877,
+        "scale_dev_mean": 0.2282224507802953
+      }
+    }
+  },
+  "by_horizon": {
+    "long": {
+      "static_box": {
+        "n": 4583,
+        "iou_mean": 0.14574955762439826,
+        "iou_median": 0.0,
+        "iou_std": 0.2455021982617029,
+        "center_px_mean": 136.084123669509,
+        "center_px_median": 67.97793759742936,
+        "center_norm_mean": 1.8912173642934949,
+        "scale_dev_mean": 0.23797931406803044
+      },
+      "linear_interp": {
+        "n": 4583,
+        "iou_mean": 0.14574955762439826,
+        "iou_median": 0.0,
+        "iou_std": 0.2455021982617029,
+        "center_px_mean": 136.084123669509,
+        "center_px_median": 67.97793759742936,
+        "center_norm_mean": 1.8912173642934949,
+        "scale_dev_mean": 0.23797931406803044
+      },
+      "homography_chained": {
+        "n": 4583,
+        "iou_mean": 0.35775909393623073,
+        "iou_median": 0.3293981425949059,
+        "iou_std": 0.3204679536804747,
+        "center_px_mean": 36.34226921348313,
+        "center_px_median": 17.57850656404728,
+        "center_norm_mean": 0.5717423880316818,
+        "scale_dev_mean": 0.21927248282583342
+      },
+      "homography_direct": {
+        "n": 4583,
+        "iou_mean": 0.3381617696371791,
+        "iou_median": 0.2468773978720734,
+        "iou_std": 0.34284453841109014,
+        "center_px_mean": 58.48676658986426,
+        "center_px_median": 21.873868611256075,
+        "center_norm_mean": 0.8360475872457351,
+        "scale_dev_mean": 0.28045737141990496
+      }
+    }
+  },
+  "drift_curve": {
+    "0": {
+      "static_box": {
+        "n": 109,
+        "iou_mean": 0.6812530691558413,
+        "center_norm_mean": 0.14986285567588864
+      },
+      "linear_interp": {
+        "n": 109,
+        "iou_mean": 0.6812530691558413,
+        "center_norm_mean": 0.14986285567588864
+      },
+      "homography_chained": {
+        "n": 109,
+        "iou_mean": 0.7576853895562152,
+        "center_norm_mean": 0.07663973142107643
+      },
+      "homography_direct": {
+        "n": 109,
+        "iou_mean": 0.7576853895562148,
+        "center_norm_mean": 0.07663973142107637
+      }
+    },
+    "10": {
+      "static_box": {
+        "n": 218,
+        "iou_mean": 0.4922002567717288,
+        "center_norm_mean": 0.3068885736018674
+      },
+      "linear_interp": {
+        "n": 218,
+        "iou_mean": 0.4922002567717288,
+        "center_norm_mean": 0.3068885736018674
+      },
+      "homography_chained": {
+        "n": 218,
+        "iou_mean": 0.6875311062111101,
+        "center_norm_mean": 0.09719226516505348
+      },
+      "homography_direct": {
+        "n": 218,
+        "iou_mean": 0.69634426380021,
+        "center_norm_mean": 0.09749665371569534
+      }
+    },
+    "20": {
+      "static_box": {
+        "n": 220,
+        "iou_mean": 0.3801791149562224,
+        "center_norm_mean": 0.47715699049917
+      },
+      "linear_interp": {
+        "n": 220,
+        "iou_mean": 0.3801791149562224,
+        "center_norm_mean": 0.47715699049917
+      },
+      "homography_chained": {
+        "n": 220,
+        "iou_mean": 0.6183029014499539,
+        "center_norm_mean": 0.12198328814057863
+      },
+      "homography_direct": {
+        "n": 220,
+        "iou_mean": 0.63222763440708,
+        "center_norm_mean": 0.12491077770961043
+      }
+    },
+    "30": {
+      "static_box": {
+        "n": 220,
+        "iou_mean": 0.2797543614554032,
+        "center_norm_mean": 0.6209781735604198
+      },
+      "linear_interp": {
+        "n": 220,
+        "iou_mean": 0.2797543614554032,
+        "center_norm_mean": 0.6209781735604198
+      },
+      "homography_chained": {
+        "n": 220,
+        "iou_mean": 0.6022027781326578,
+        "center_norm_mean": 0.13148139257255909
+      },
+      "homography_direct": {
+        "n": 220,
+        "iou_mean": 0.6041217074233262,
+        "center_norm_mean": 0.14019369402442786
+      }
+    },
+    "40": {
+      "static_box": {
+        "n": 246,
+        "iou_mean": 0.2369934556579894,
+        "center_norm_mean": 0.6706896631866226
+      },
+      "linear_interp": {
+        "n": 246,
+        "iou_mean": 0.2369934556579894,
+        "center_norm_mean": 0.6706896631866226
+      },
+      "homography_chained": {
+        "n": 246,
+        "iou_mean": 0.5469064308347762,
+        "center_norm_mean": 0.16134038583156005
+      },
+      "homography_direct": {
+        "n": 246,
+        "iou_mean": 0.5555270848579441,
+        "center_norm_mean": 0.16929807377699446
+      }
+    },
+    "50": {
+      "static_box": {
+        "n": 158,
+        "iou_mean": 0.13731499522118445,
+        "center_norm_mean": 0.8808127412770369
+      },
+      "linear_interp": {
+        "n": 158,
+        "iou_mean": 0.13731499522118445,
+        "center_norm_mean": 0.8808127412770369
+      },
+      "homography_chained": {
+        "n": 158,
+        "iou_mean": 0.5614149897926691,
+        "center_norm_mean": 0.1850600758614593
+      },
+      "homography_direct": {
+        "n": 158,
+        "iou_mean": 0.5715859129138304,
+        "center_norm_mean": 0.19581150756797241
+      }
+    },
+    "60": {
+      "static_box": {
+        "n": 152,
+        "iou_mean": 0.1065705415839356,
+        "center_norm_mean": 0.9631221057436193
+      },
+      "linear_interp": {
+        "n": 152,
+        "iou_mean": 0.1065705415839356,
+        "center_norm_mean": 0.9631221057436193
+      },
+      "homography_chained": {
+        "n": 152,
+        "iou_mean": 0.554385023136473,
+        "center_norm_mean": 0.19411197805479952
+      },
+      "homography_direct": {
+        "n": 152,
+        "iou_mean": 0.567514731283889,
+        "center_norm_mean": 0.21049700311123334
+      }
+    },
+    "70": {
+      "static_box": {
+        "n": 148,
+        "iou_mean": 0.0990012131802964,
+        "center_norm_mean": 0.9632674859615978
+      },
+      "linear_interp": {
+        "n": 148,
+        "iou_mean": 0.0990012131802964,
+        "center_norm_mean": 0.9632674859615978
+      },
+      "homography_chained": {
+        "n": 148,
+        "iou_mean": 0.536201746484414,
+        "center_norm_mean": 0.21251712379410326
+      },
+      "homography_direct": {
+        "n": 148,
+        "iou_mean": 0.5457127375919268,
+        "center_norm_mean": 0.22160016304069496
+      }
+    },
+    "80": {
+      "static_box": {
+        "n": 149,
+        "iou_mean": 0.0938534373687874,
+        "center_norm_mean": 1.0994587163868563
+      },
+      "linear_interp": {
+        "n": 149,
+        "iou_mean": 0.0938534373687874,
+        "center_norm_mean": 1.0994587163868563
+      },
+      "homography_chained": {
+        "n": 149,
+        "iou_mean": 0.5026737119398867,
+        "center_norm_mean": 0.23835948083629033
+      },
+      "homography_direct": {
+        "n": 149,
+        "iou_mean": 0.5144776298345107,
+        "center_norm_mean": 0.23103551766452413
+      }
+    },
+    "90": {
+      "static_box": {
+        "n": 150,
+        "iou_mean": 0.0943612140285322,
+        "center_norm_mean": 1.3084601865139502
+      },
+      "linear_interp": {
+        "n": 150,
+        "iou_mean": 0.0943612140285322,
+        "center_norm_mean": 1.3084601865139502
+      },
+      "homography_chained": {
+        "n": 150,
+        "iou_mean": 0.4912530802998275,
+        "center_norm_mean": 0.26463172646393096
+      },
+      "homography_direct": {
+        "n": 150,
+        "iou_mean": 0.4711695880337939,
+        "center_norm_mean": 0.2858084388835644
+      }
+    },
+    "100": {
+      "static_box": {
+        "n": 148,
+        "iou_mean": 0.09947431415997228,
+        "center_norm_mean": 1.3891139545613684
+      },
+      "linear_interp": {
+        "n": 148,
+        "iou_mean": 0.09947431415997228,
+        "center_norm_mean": 1.3891139545613684
+      },
+      "homography_chained": {
+        "n": 148,
+        "iou_mean": 0.459809014489102,
+        "center_norm_mean": 0.28973531770348177
+      },
+      "homography_direct": {
+        "n": 148,
+        "iou_mean": 0.43661837359881056,
+        "center_norm_mean": 0.3120053709603594
+      }
+    },
+    "110": {
+      "static_box": {
+        "n": 149,
+        "iou_mean": 0.09152928586270652,
+        "center_norm_mean": 1.521765692360942
+      },
+      "linear_interp": {
+        "n": 149,
+        "iou_mean": 0.09152928586270652,
+        "center_norm_mean": 1.521765692360942
+      },
+      "homography_chained": {
+        "n": 149,
+        "iou_mean": 0.4277052997921797,
+        "center_norm_mean": 0.32191769211083887
+      },
+      "homography_direct": {
+        "n": 149,
+        "iou_mean": 0.39129394022935327,
+        "center_norm_mean": 0.36993987680278023
+      }
+    },
+    "120": {
+      "static_box": {
+        "n": 142,
+        "iou_mean": 0.07793345571429423,
+        "center_norm_mean": 1.7651313878673887
+      },
+      "linear_interp": {
+        "n": 142,
+        "iou_mean": 0.07793345571429423,
+        "center_norm_mean": 1.7651313878673887
+      },
+      "homography_chained": {
+        "n": 142,
+        "iou_mean": 0.4095181979545605,
+        "center_norm_mean": 0.34486809877776076
+      },
+      "homography_direct": {
+        "n": 142,
+        "iou_mean": 0.36120258255394205,
+        "center_norm_mean": 0.39709768947371904
+      }
+    },
+    "130": {
+      "static_box": {
+        "n": 140,
+        "iou_mean": 0.06980414070680366,
+        "center_norm_mean": 2.0396897698085588
+      },
+      "linear_interp": {
+        "n": 140,
+        "iou_mean": 0.06980414070680366,
+        "center_norm_mean": 2.0396897698085588
+      },
+      "homography_chained": {
+        "n": 140,
+        "iou_mean": 0.37235949508383115,
+        "center_norm_mean": 0.39445139202765145
+      },
+      "homography_direct": {
+        "n": 140,
+        "iou_mean": 0.3339360947472655,
+        "center_norm_mean": 0.4431135044116739
+      }
+    },
+    "140": {
+      "static_box": {
+        "n": 141,
+        "iou_mean": 0.061019756624887435,
+        "center_norm_mean": 2.316438052051371
+      },
+      "linear_interp": {
+        "n": 141,
+        "iou_mean": 0.061019756624887435,
+        "center_norm_mean": 2.316438052051371
+      },
+      "homography_chained": {
+        "n": 141,
+        "iou_mean": 0.34745509708039984,
+        "center_norm_mean": 0.43859692140172846
+      },
+      "homography_direct": {
+        "n": 141,
+        "iou_mean": 0.29761380563072215,
+        "center_norm_mean": 0.5021266040124448
+      }
+    },
+    "150": {
+      "static_box": {
+        "n": 128,
+        "iou_mean": 0.05525271260459635,
+        "center_norm_mean": 3.142014955869724
+      },
+      "linear_interp": {
+        "n": 128,
+        "iou_mean": 0.05525271260459635,
+        "center_norm_mean": 3.142014955869724
+      },
+      "homography_chained": {
+        "n": 128,
+        "iou_mean": 0.32150293351196585,
+        "center_norm_mean": 0.49721564450233763
+      },
+      "homography_direct": {
+        "n": 128,
+        "iou_mean": 0.18998049778632767,
+        "center_norm_mean": 1.1718570466012626
+      }
+    },
+    "160": {
+      "static_box": {
+        "n": 117,
+        "iou_mean": 0.053907599590255616,
+        "center_norm_mean": 3.6771199695036594
+      },
+      "linear_interp": {
+        "n": 117,
+        "iou_mean": 0.053907599590255616,
+        "center_norm_mean": 3.6771199695036594
+      },
+      "homography_chained": {
+        "n": 117,
+        "iou_mean": 0.2513184007329743,
+        "center_norm_mean": 0.5998803365969855
+      },
+      "homography_direct": {
+        "n": 117,
+        "iou_mean": 0.2137791318643583,
+        "center_norm_mean": 1.0577284476074351
+      }
+    },
+    "170": {
+      "static_box": {
+        "n": 119,
+        "iou_mean": 0.04402535667419887,
+        "center_norm_mean": 4.541279306736772
+      },
+      "linear_interp": {
+        "n": 119,
+        "iou_mean": 0.04402535667419887,
+        "center_norm_mean": 4.541279306736772
+      },
+      "homography_chained": {
+        "n": 119,
+        "iou_mean": 0.20571779104114699,
+        "center_norm_mean": 0.8320491610173542
+      },
+      "homography_direct": {
+        "n": 119,
+        "iou_mean": 0.22799342422231605,
+        "center_norm_mean": 0.982883288196911
+      }
+    },
+    "180": {
+      "static_box": {
+        "n": 105,
+        "iou_mean": 0.04524662821301737,
+        "center_norm_mean": 4.022279481702125
+      },
+      "linear_interp": {
+        "n": 105,
+        "iou_mean": 0.04524662821301737,
+        "center_norm_mean": 4.022279481702125
+      },
+      "homography_chained": {
+        "n": 105,
+        "iou_mean": 0.20669407005327556,
+        "center_norm_mean": 1.0168018664425318
+      },
+      "homography_direct": {
+        "n": 105,
+        "iou_mean": 0.19175635306620606,
+        "center_norm_mean": 1.2075742152273694
+      }
+    },
+    "190": {
+      "static_box": {
+        "n": 87,
+        "iou_mean": 0.05324376169228249,
+        "center_norm_mean": 3.2988075788465623
+      },
+      "linear_interp": {
+        "n": 87,
+        "iou_mean": 0.05324376169228249,
+        "center_norm_mean": 3.2988075788465623
+      },
+      "homography_chained": {
+        "n": 87,
+        "iou_mean": 0.23022848525118125,
+        "center_norm_mean": 0.7313826319276983
+      },
+      "homography_direct": {
+        "n": 87,
+        "iou_mean": 0.17423467589958322,
+        "center_norm_mean": 1.0803017766963048
+      }
+    },
+    "200": {
+      "static_box": {
+        "n": 87,
+        "iou_mean": 0.06632046861437303,
+        "center_norm_mean": 2.9605004600354023
+      },
+      "linear_interp": {
+        "n": 87,
+        "iou_mean": 0.06632046861437303,
+        "center_norm_mean": 2.9605004600354023
+      },
+      "homography_chained": {
+        "n": 87,
+        "iou_mean": 0.2234884005900842,
+        "center_norm_mean": 0.7583788087874944
+      },
+      "homography_direct": {
+        "n": 87,
+        "iou_mean": 0.20013863644565305,
+        "center_norm_mean": 1.1141254535190634
+      }
+    },
+    "210": {
+      "static_box": {
+        "n": 80,
+        "iou_mean": 0.048580064294420446,
+        "center_norm_mean": 3.0592090207643112
+      },
+      "linear_interp": {
+        "n": 80,
+        "iou_mean": 0.048580064294420446,
+        "center_norm_mean": 3.0592090207643112
+      },
+      "homography_chained": {
+        "n": 80,
+        "iou_mean": 0.20140358691809399,
+        "center_norm_mean": 0.8093005770137293
+      },
+      "homography_direct": {
+        "n": 80,
+        "iou_mean": 0.17999321317286548,
+        "center_norm_mean": 0.9832267218824409
+      }
+    },
+    "220": {
+      "static_box": {
+        "n": 74,
+        "iou_mean": 0.0503061737355339,
+        "center_norm_mean": 3.4761318373949313
+      },
+      "linear_interp": {
+        "n": 74,
+        "iou_mean": 0.0503061737355339,
+        "center_norm_mean": 3.4761318373949313
+      },
+      "homography_chained": {
+        "n": 74,
+        "iou_mean": 0.189233869517905,
+        "center_norm_mean": 0.8544481037248899
+      },
+      "homography_direct": {
+        "n": 74,
+        "iou_mean": 0.1583261728584424,
+        "center_norm_mean": 1.5677464515839625
+      }
+    },
+    "230": {
+      "static_box": {
+        "n": 70,
+        "iou_mean": 0.05198064780324951,
+        "center_norm_mean": 3.7692244134064317
+      },
+      "linear_interp": {
+        "n": 70,
+        "iou_mean": 0.05198064780324951,
+        "center_norm_mean": 3.7692244134064317
+      },
+      "homography_chained": {
+        "n": 70,
+        "iou_mean": 0.21362461735914137,
+        "center_norm_mean": 0.8719866395871013
+      },
+      "homography_direct": {
+        "n": 70,
+        "iou_mean": 0.09142842060272321,
+        "center_norm_mean": 1.8465657635356425
+      }
+    },
+    "240": {
+      "static_box": {
+        "n": 61,
+        "iou_mean": 0.05965401014202895,
+        "center_norm_mean": 3.693237929591544
+      },
+      "linear_interp": {
+        "n": 61,
+        "iou_mean": 0.05965401014202895,
+        "center_norm_mean": 3.693237929591544
+      },
+      "homography_chained": {
+        "n": 61,
+        "iou_mean": 0.19592571643028797,
+        "center_norm_mean": 0.9210105368816522
+      },
+      "homography_direct": {
+        "n": 61,
+        "iou_mean": 0.1645637549686007,
+        "center_norm_mean": 1.4526022387002657
+      }
+    },
+    "250": {
+      "static_box": {
+        "n": 60,
+        "iou_mean": 0.06001326299625983,
+        "center_norm_mean": 3.911147538459288
+      },
+      "linear_interp": {
+        "n": 60,
+        "iou_mean": 0.06001326299625983,
+        "center_norm_mean": 3.911147538459288
+      },
+      "homography_chained": {
+        "n": 60,
+        "iou_mean": 0.18590440829527072,
+        "center_norm_mean": 0.9588557088602948
+      },
+      "homography_direct": {
+        "n": 60,
+        "iou_mean": 0.009482836809550872,
+        "center_norm_mean": 1.6381325560278646
+      }
+    },
+    "260": {
+      "static_box": {
+        "n": 60,
+        "iou_mean": 0.058387805435391536,
+        "center_norm_mean": 4.251374128973471
+      },
+      "linear_interp": {
+        "n": 60,
+        "iou_mean": 0.058387805435391536,
+        "center_norm_mean": 4.251374128973471
+      },
+      "homography_chained": {
+        "n": 60,
+        "iou_mean": 0.17204146854996455,
+        "center_norm_mean": 1.0372202699347703
+      },
+      "homography_direct": {
+        "n": 60,
+        "iou_mean": 0.006034449583930449,
+        "center_norm_mean": 1.7759121194185872
+      }
+    },
+    "270": {
+      "static_box": {
+        "n": 60,
+        "iou_mean": 0.05653791392345261,
+        "center_norm_mean": 4.239735912088048
+      },
+      "linear_interp": {
+        "n": 60,
+        "iou_mean": 0.05653791392345261,
+        "center_norm_mean": 4.239735912088048
+      },
+      "homography_chained": {
+        "n": 60,
+        "iou_mean": 0.14766213722678448,
+        "center_norm_mean": 1.1920233833075604
+      },
+      "homography_direct": {
+        "n": 60,
+        "iou_mean": 0.0042338137687343525,
+        "center_norm_mean": 2.15402731759786
+      }
+    },
+    "280": {
+      "static_box": {
+        "n": 47,
+        "iou_mean": 0.06984606960290964,
+        "center_norm_mean": 3.1291358670970864
+      },
+      "linear_interp": {
+        "n": 47,
+        "iou_mean": 0.06984606960290964,
+        "center_norm_mean": 3.1291358670970864
+      },
+      "homography_chained": {
+        "n": 47,
+        "iou_mean": 0.07741114836875644,
+        "center_norm_mean": 1.2518708725854581
+      },
+      "homography_direct": {
+        "n": 47,
+        "iou_mean": 0.06847490354679488,
+        "center_norm_mean": 1.501817374478618
+      }
+    },
+    "290": {
+      "static_box": {
+        "n": 45,
+        "iou_mean": 0.07169090860006366,
+        "center_norm_mean": 2.8154479198257167
+      },
+      "linear_interp": {
+        "n": 45,
+        "iou_mean": 0.07169090860006366,
+        "center_norm_mean": 2.8154479198257167
+      },
+      "homography_chained": {
+        "n": 45,
+        "iou_mean": 0.07556865743658378,
+        "center_norm_mean": 1.2615391433573038
+      },
+      "homography_direct": {
+        "n": 45,
+        "iou_mean": 0.06414322208654814,
+        "center_norm_mean": 1.7910120373311513
+      }
+    },
+    "300": {
+      "static_box": {
+        "n": 45,
+        "iou_mean": 0.06778693968936703,
+        "center_norm_mean": 2.722649493969072
+      },
+      "linear_interp": {
+        "n": 45,
+        "iou_mean": 0.06778693968936703,
+        "center_norm_mean": 2.722649493969072
+      },
+      "homography_chained": {
+        "n": 45,
+        "iou_mean": 0.07513918869948417,
+        "center_norm_mean": 1.310493710794946
+      },
+      "homography_direct": {
+        "n": 45,
+        "iou_mean": 0.06645088413124359,
+        "center_norm_mean": 1.4915913689222764
+      }
+    },
+    "310": {
+      "static_box": {
+        "n": 42,
+        "iou_mean": 0.058938861877277184,
+        "center_norm_mean": 2.877217862881921
+      },
+      "linear_interp": {
+        "n": 42,
+        "iou_mean": 0.058938861877277184,
+        "center_norm_mean": 2.877217862881921
+      },
+      "homography_chained": {
+        "n": 42,
+        "iou_mean": 0.09974604394277192,
+        "center_norm_mean": 1.3451128177563103
+      },
+      "homography_direct": {
+        "n": 42,
+        "iou_mean": 0.019057980336920792,
+        "center_norm_mean": 1.6787517401332348
+      }
+    },
+    "320": {
+      "static_box": {
+        "n": 37,
+        "iou_mean": 0.05722681956254537,
+        "center_norm_mean": 2.839506217241331
+      },
+      "linear_interp": {
+        "n": 37,
+        "iou_mean": 0.05722681956254537,
+        "center_norm_mean": 2.839506217241331
+      },
+      "homography_chained": {
+        "n": 37,
+        "iou_mean": 0.11019002118383481,
+        "center_norm_mean": 1.3276142682328507
+      },
+      "homography_direct": {
+        "n": 37,
+        "iou_mean": 0.1018241132653624,
+        "center_norm_mean": 1.4120647051668829
+      }
+    },
+    "330": {
+      "static_box": {
+        "n": 34,
+        "iou_mean": 0.057027200391025594,
+        "center_norm_mean": 2.8348873239248698
+      },
+      "linear_interp": {
+        "n": 34,
+        "iou_mean": 0.057027200391025594,
+        "center_norm_mean": 2.8348873239248698
+      },
+      "homography_chained": {
+        "n": 34,
+        "iou_mean": 0.10081120888833264,
+        "center_norm_mean": 1.2725813593278021
+      },
+      "homography_direct": {
+        "n": 34,
+        "iou_mean": 0.04879477729369347,
+        "center_norm_mean": 1.508529027072844
+      }
+    },
+    "340": {
+      "static_box": {
+        "n": 33,
+        "iou_mean": 0.050992273268947744,
+        "center_norm_mean": 2.835697107135761
+      },
+      "linear_interp": {
+        "n": 33,
+        "iou_mean": 0.050992273268947744,
+        "center_norm_mean": 2.835697107135761
+      },
+      "homography_chained": {
+        "n": 33,
+        "iou_mean": 0.09911514077646277,
+        "center_norm_mean": 1.3179734015334346
+      },
+      "homography_direct": {
+        "n": 33,
+        "iou_mean": 0.11175897817532525,
+        "center_norm_mean": 1.6616811362319865
+      }
+    },
+    "350": {
+      "static_box": {
+        "n": 32,
+        "iou_mean": 0.047955484045898306,
+        "center_norm_mean": 2.684651446792071
+      },
+      "linear_interp": {
+        "n": 32,
+        "iou_mean": 0.047955484045898306,
+        "center_norm_mean": 2.684651446792071
+      },
+      "homography_chained": {
+        "n": 32,
+        "iou_mean": 0.0875492633904415,
+        "center_norm_mean": 1.3810685016315802
+      },
+      "homography_direct": {
+        "n": 32,
+        "iou_mean": 0.05836169940188589,
+        "center_norm_mean": 1.4601733204034533
+      }
+    },
+    "360": {
+      "static_box": {
+        "n": 30,
+        "iou_mean": 0.04676036236844857,
+        "center_norm_mean": 2.421167658900497
+      },
+      "linear_interp": {
+        "n": 30,
+        "iou_mean": 0.04676036236844857,
+        "center_norm_mean": 2.421167658900497
+      },
+      "homography_chained": {
+        "n": 30,
+        "iou_mean": 0.112770061979208,
+        "center_norm_mean": 1.2606502293358304
+      },
+      "homography_direct": {
+        "n": 30,
+        "iou_mean": 0.16714990743346245,
+        "center_norm_mean": 1.2332474070540491
+      }
+    },
+    "370": {
+      "static_box": {
+        "n": 30,
+        "iou_mean": 0.047243521543696494,
+        "center_norm_mean": 2.503015399604706
+      },
+      "linear_interp": {
+        "n": 30,
+        "iou_mean": 0.047243521543696494,
+        "center_norm_mean": 2.503015399604706
+      },
+      "homography_chained": {
+        "n": 30,
+        "iou_mean": 0.1241636333980258,
+        "center_norm_mean": 1.2836706520264791
+      },
+      "homography_direct": {
+        "n": 30,
+        "iou_mean": 0.05476113414749969,
+        "center_norm_mean": 1.5559931416100434
+      }
+    },
+    "380": {
+      "static_box": {
+        "n": 30,
+        "iou_mean": 0.04638876498444444,
+        "center_norm_mean": 2.5895196022723694
+      },
+      "linear_interp": {
+        "n": 30,
+        "iou_mean": 0.04638876498444444,
+        "center_norm_mean": 2.5895196022723694
+      },
+      "homography_chained": {
+        "n": 30,
+        "iou_mean": 0.1310715697924655,
+        "center_norm_mean": 1.3098397645996962
+      },
+      "homography_direct": {
+        "n": 30,
+        "iou_mean": 0.0470601194021647,
+        "center_norm_mean": 2.624087832628442
+      }
+    },
+    "390": {
+      "static_box": {
+        "n": 30,
+        "iou_mean": 0.04600618147766353,
+        "center_norm_mean": 2.661329683574094
+      },
+      "linear_interp": {
+        "n": 30,
+        "iou_mean": 0.04600618147766353,
+        "center_norm_mean": 2.661329683574094
+      },
+      "homography_chained": {
+        "n": 30,
+        "iou_mean": 0.13130013769752905,
+        "center_norm_mean": 1.3325741152549528
+      },
+      "homography_direct": {
+        "n": 30,
+        "iou_mean": 0.05425522728594367,
+        "center_norm_mean": 1.4687424767149109
+      }
+    },
+    "400": {
+      "static_box": {
+        "n": 30,
+        "iou_mean": 0.049713698456615704,
+        "center_norm_mean": 2.7432070135409665
+      },
+      "linear_interp": {
+        "n": 30,
+        "iou_mean": 0.049713698456615704,
+        "center_norm_mean": 2.7432070135409665
+      },
+      "homography_chained": {
+        "n": 30,
+        "iou_mean": 0.12189859888469819,
+        "center_norm_mean": 1.365211760649101
+      },
+      "homography_direct": {
+        "n": 30,
+        "iou_mean": 0.051784847689637876,
+        "center_norm_mean": 1.5329885751727046
+      }
+    },
+    "410": {
+      "static_box": {
+        "n": 30,
+        "iou_mean": 0.05252515824317231,
+        "center_norm_mean": 2.835578258211144
+      },
+      "linear_interp": {
+        "n": 30,
+        "iou_mean": 0.05252515824317231,
+        "center_norm_mean": 2.835578258211144
+      },
+      "homography_chained": {
+        "n": 30,
+        "iou_mean": 0.10502354660284063,
+        "center_norm_mean": 1.4117516254299327
+      },
+      "homography_direct": {
+        "n": 30,
+        "iou_mean": 0.04719022665140235,
+        "center_norm_mean": 2.615478225886643
+      }
+    },
+    "420": {
+      "static_box": {
+        "n": 30,
+        "iou_mean": 0.05412403920541684,
+        "center_norm_mean": 2.940276442569384
+      },
+      "linear_interp": {
+        "n": 30,
+        "iou_mean": 0.05412403920541684,
+        "center_norm_mean": 2.940276442569384
+      },
+      "homography_chained": {
+        "n": 30,
+        "iou_mean": 0.09144780109998589,
+        "center_norm_mean": 1.4425901693147838
+      },
+      "homography_direct": {
+        "n": 30,
+        "iou_mean": 0.08932607698080547,
+        "center_norm_mean": 4.232961430496566
+      }
+    },
+    "430": {
+      "static_box": {
+        "n": 30,
+        "iou_mean": 0.05387709992525125,
+        "center_norm_mean": 3.066235199873898
+      },
+      "linear_interp": {
+        "n": 30,
+        "iou_mean": 0.05387709992525125,
+        "center_norm_mean": 3.066235199873898
+      },
+      "homography_chained": {
+        "n": 30,
+        "iou_mean": 0.08197210988880944,
+        "center_norm_mean": 1.4783709325218333
+      },
+      "homography_direct": {
+        "n": 30,
+        "iou_mean": 0.07169411742203338,
+        "center_norm_mean": 3.050736808510421
+      }
+    },
+    "440": {
+      "static_box": {
+        "n": 30,
+        "iou_mean": 0.05364162857845072,
+        "center_norm_mean": 3.1988676492713046
+      },
+      "linear_interp": {
+        "n": 30,
+        "iou_mean": 0.05364162857845072,
+        "center_norm_mean": 3.1988676492713046
+      },
+      "homography_chained": {
+        "n": 30,
+        "iou_mean": 0.07134401886226548,
+        "center_norm_mean": 1.5332676845776618
+      },
+      "homography_direct": {
+        "n": 30,
+        "iou_mean": 0.026392627529443744,
+        "center_norm_mean": 4.012147156989661
+      }
+    },
+    "450": {
+      "static_box": {
+        "n": 30,
+        "iou_mean": 0.052762169349099816,
+        "center_norm_mean": 3.334052015971162
+      },
+      "linear_interp": {
+        "n": 30,
+        "iou_mean": 0.052762169349099816,
+        "center_norm_mean": 3.334052015971162
+      },
+      "homography_chained": {
+        "n": 30,
+        "iou_mean": 0.05985928861161783,
+        "center_norm_mean": 1.5844681726892123
+      },
+      "homography_direct": {
+        "n": 30,
+        "iou_mean": 0.0016713341587240207,
+        "center_norm_mean": 3.8335798303031923
+      }
+    },
+    "460": {
+      "static_box": {
+        "n": 30,
+        "iou_mean": 0.052637445157590355,
+        "center_norm_mean": 3.4379893327016235
+      },
+      "linear_interp": {
+        "n": 30,
+        "iou_mean": 0.052637445157590355,
+        "center_norm_mean": 3.4379893327016235
+      },
+      "homography_chained": {
+        "n": 30,
+        "iou_mean": 0.048817213803179965,
+        "center_norm_mean": 1.627324861074842
+      },
+      "homography_direct": {
+        "n": 30,
+        "iou_mean": 1.877957883722677e-06,
+        "center_norm_mean": 4.111671981414343
+      }
+    },
+    "470": {
+      "static_box": {
+        "n": 8,
+        "iou_mean": 0.1957467600597732,
+        "center_norm_mean": 0.4038162859974296
+      },
+      "linear_interp": {
+        "n": 8,
+        "iou_mean": 0.1957467600597732,
+        "center_norm_mean": 0.4038162859974296
+      },
+      "homography_chained": {
+        "n": 8,
+        "iou_mean": 0.1299390091213861,
+        "center_norm_mean": 0.4467774379392605
+      },
+      "homography_direct": {
+        "n": 8,
+        "iou_mean": 0.08406076588983567,
+        "center_norm_mean": 0.9581400839616636
+      }
+    },
+    "480": {
+      "static_box": {
+        "n": 8,
+        "iou_mean": 0.19322510376723342,
+        "center_norm_mean": 0.4093136728080146
+      },
+      "linear_interp": {
+        "n": 8,
+        "iou_mean": 0.19322510376723342,
+        "center_norm_mean": 0.4093136728080146
+      },
+      "homography_chained": {
+        "n": 8,
+        "iou_mean": 0.12993310905041633,
+        "center_norm_mean": 0.4445508121562439
+      },
+      "homography_direct": {
+        "n": 8,
+        "iou_mean": 0.08613874132344253,
+        "center_norm_mean": 0.9631097107692994
+      }
+    },
+    "490": {
+      "static_box": {
+        "n": 8,
+        "iou_mean": 0.18901320257726517,
+        "center_norm_mean": 0.4143811471044
+      },
+      "linear_interp": {
+        "n": 8,
+        "iou_mean": 0.18901320257726517,
+        "center_norm_mean": 0.4143811471044
+      },
+      "homography_chained": {
+        "n": 8,
+        "iou_mean": 0.08817985607718319,
+        "center_norm_mean": 0.48479454149067236
+      },
+      "homography_direct": {
+        "n": 8,
+        "iou_mean": 0.080068976704022,
+        "center_norm_mean": 1.0146910559978173
+      }
+    },
+    "500": {
+      "static_box": {
+        "n": 8,
+        "iou_mean": 0.18485438617157268,
+        "center_norm_mean": 0.41959916887022436
+      },
+      "linear_interp": {
+        "n": 8,
+        "iou_mean": 0.18485438617157268,
+        "center_norm_mean": 0.41959916887022436
+      },
+      "homography_chained": {
+        "n": 8,
+        "iou_mean": 0.07078534116206447,
+        "center_norm_mean": 0.5061670614398723
+      },
+      "homography_direct": {
+        "n": 8,
+        "iou_mean": 0.0,
+        "center_norm_mean": 1.6443001702873077
+      }
+    },
+    "510": {
+      "static_box": {
+        "n": 8,
+        "iou_mean": 0.1889685149067789,
+        "center_norm_mean": 0.4208205478007925
+      },
+      "linear_interp": {
+        "n": 8,
+        "iou_mean": 0.1889685149067789,
+        "center_norm_mean": 0.4208205478007925
+      },
+      "homography_chained": {
+        "n": 8,
+        "iou_mean": 0.054444371469045814,
+        "center_norm_mean": 0.5215287840107072
+      },
+      "homography_direct": {
+        "n": 8,
+        "iou_mean": 0.08410651338832496,
+        "center_norm_mean": 1.018728313214182
+      }
+    },
+    "520": {
+      "static_box": {
+        "n": 8,
+        "iou_mean": 0.1834063833543901,
+        "center_norm_mean": 0.4264395193084343
+      },
+      "linear_interp": {
+        "n": 8,
+        "iou_mean": 0.1834063833543901,
+        "center_norm_mean": 0.4264395193084343
+      },
+      "homography_chained": {
+        "n": 8,
+        "iou_mean": 0.05082994089296868,
+        "center_norm_mean": 0.5267579751774014
+      },
+      "homography_direct": {
+        "n": 8,
+        "iou_mean": 0.0,
+        "center_norm_mean": 1.6133375515430879
+      }
+    },
+    "530": {
+      "static_box": {
+        "n": 8,
+        "iou_mean": 0.18061706694868715,
+        "center_norm_mean": 0.43041399997785323
+      },
+      "linear_interp": {
+        "n": 8,
+        "iou_mean": 0.18061706694868715,
+        "center_norm_mean": 0.43041399997785323
+      },
+      "homography_chained": {
+        "n": 8,
+        "iou_mean": 0.06981012139082877,
+        "center_norm_mean": 0.5059499316675529
+      },
+      "homography_direct": {
+        "n": 8,
+        "iou_mean": 0.26547803205458287,
+        "center_norm_mean": 0.9223216203726691
+      }
+    },
+    "540": {
+      "static_box": {
+        "n": 8,
+        "iou_mean": 0.1793070735093047,
+        "center_norm_mean": 0.43251734306016826
+      },
+      "linear_interp": {
+        "n": 8,
+        "iou_mean": 0.1793070735093047,
+        "center_norm_mean": 0.43251734306016826
+      },
+      "homography_chained": {
+        "n": 8,
+        "iou_mean": 0.10754309964156583,
+        "center_norm_mean": 0.4869960573548694
+      },
+      "homography_direct": {
+        "n": 8,
+        "iou_mean": 0.0,
+        "center_norm_mean": 1.6772753796459274
+      }
+    },
+    "550": {
+      "static_box": {
+        "n": 8,
+        "iou_mean": 0.1793070735093047,
+        "center_norm_mean": 0.43251734306016826
+      },
+      "linear_interp": {
+        "n": 8,
+        "iou_mean": 0.1793070735093047,
+        "center_norm_mean": 0.43251734306016826
+      },
+      "homography_chained": {
+        "n": 8,
+        "iou_mean": 0.08214201431292763,
+        "center_norm_mean": 0.5106172376302733
+      },
+      "homography_direct": {
+        "n": 8,
+        "iou_mean": 0.0,
+        "center_norm_mean": 1.744870163499576
+      }
+    },
+    "560": {
+      "static_box": {
+        "n": 8,
+        "iou_mean": 0.18061706694868715,
+        "center_norm_mean": 0.43041399997785323
+      },
+      "linear_interp": {
+        "n": 8,
+        "iou_mean": 0.18061706694868715,
+        "center_norm_mean": 0.43041399997785323
+      },
+      "homography_chained": {
+        "n": 8,
+        "iou_mean": 0.03667420730171489,
+        "center_norm_mean": 0.5801006341869686
+      },
+      "homography_direct": {
+        "n": 8,
+        "iou_mean": 0.049693310698191565,
+        "center_norm_mean": 1.1692393690181593
+      }
+    },
+    "570": {
+      "static_box": {
+        "n": 8,
+        "iou_mean": 0.18406251412858593,
+        "center_norm_mean": 0.42810244363413896
+      },
+      "linear_interp": {
+        "n": 8,
+        "iou_mean": 0.18406251412858593,
+        "center_norm_mean": 0.42810244363413896
+      },
+      "homography_chained": {
+        "n": 8,
+        "iou_mean": 0.026556394795900006,
+        "center_norm_mean": 0.6084402806504758
+      },
+      "homography_direct": {
+        "n": 8,
+        "iou_mean": 0.31510827233461136,
+        "center_norm_mean": 0.3461652782885185
+      }
+    },
+    "580": {
+      "static_box": {
+        "n": 8,
+        "iou_mean": 0.18742824328851357,
+        "center_norm_mean": 0.424410740458113
+      },
+      "linear_interp": {
+        "n": 8,
+        "iou_mean": 0.18742824328851357,
+        "center_norm_mean": 0.424410740458113
+      },
+      "homography_chained": {
+        "n": 8,
+        "iou_mean": 0.01898863651764646,
+        "center_norm_mean": 0.6487917928200095
+      },
+      "homography_direct": {
+        "n": 8,
+        "iou_mean": 0.08529922667878055,
+        "center_norm_mean": 0.5286443689358209
+      }
+    },
+    "590": {
+      "static_box": {
+        "n": 8,
+        "iou_mean": 0.18659949332594583,
+        "center_norm_mean": 0.4241971413065772
+      },
+      "linear_interp": {
+        "n": 8,
+        "iou_mean": 0.18659949332594583,
+        "center_norm_mean": 0.4241971413065772
+      },
+      "homography_chained": {
+        "n": 8,
+        "iou_mean": 0.03467433768419119,
+        "center_norm_mean": 0.5818627604416801
+      },
+      "homography_direct": {
+        "n": 8,
+        "iou_mean": 0.0,
+        "center_norm_mean": 1.892188862446011
+      }
+    },
+    "600": {
+      "static_box": {
+        "n": 8,
+        "iou_mean": 0.18136733765106516,
+        "center_norm_mean": 0.4294819768568197
+      },
+      "linear_interp": {
+        "n": 8,
+        "iou_mean": 0.18136733765106516,
+        "center_norm_mean": 0.4294819768568197
+      },
+      "homography_chained": {
+        "n": 8,
+        "iou_mean": 0.041804654993666625,
+        "center_norm_mean": 0.5679622077956716
+      },
+      "homography_direct": {
+        "n": 8,
+        "iou_mean": 0.04735528287304863,
+        "center_norm_mean": 1.2508654532038168
+      }
+    },
+    "610": {
+      "static_box": {
+        "n": 8,
+        "iou_mean": 0.16514380750527527,
+        "center_norm_mean": 0.45813663005285477
+      },
+      "linear_interp": {
+        "n": 8,
+        "iou_mean": 0.16514380750527527,
+        "center_norm_mean": 0.45813663005285477
+      },
+      "homography_chained": {
+        "n": 8,
+        "iou_mean": 0.03523665683029599,
+        "center_norm_mean": 0.5630197607746683
+      },
+      "homography_direct": {
+        "n": 8,
+        "iou_mean": 0.1478803367875995,
+        "center_norm_mean": 0.5245377917128597
+      }
+    },
+    "620": {
+      "static_box": {
+        "n": 7,
+        "iou_mean": 0.17915087339111455,
+        "center_norm_mean": 0.45356678049475624
+      },
+      "linear_interp": {
+        "n": 7,
+        "iou_mean": 0.17915087339111455,
+        "center_norm_mean": 0.45356678049475624
+      },
+      "homography_chained": {
+        "n": 7,
+        "iou_mean": 0.01645529431686618,
+        "center_norm_mean": 0.6072665051393701
+      },
+      "homography_direct": {
+        "n": 7,
+        "iou_mean": 0.33432695204549306,
+        "center_norm_mean": 0.2867133421683861
+      }
+    },
+    "630": {
+      "static_box": {
+        "n": 6,
+        "iou_mean": 0.19953941586586996,
+        "center_norm_mean": 0.4211582294610097
+      },
+      "linear_interp": {
+        "n": 6,
+        "iou_mean": 0.19953941586586996,
+        "center_norm_mean": 0.4211582294610097
+      },
+      "homography_chained": {
+        "n": 6,
+        "iou_mean": 0.0,
+        "center_norm_mean": 0.6235447444020354
+      },
+      "homography_direct": {
+        "n": 6,
+        "iou_mean": 0.00971776439910559,
+        "center_norm_mean": 1.2931841088964857
+      }
+    },
+    "640": {
+      "static_box": {
+        "n": 6,
+        "iou_mean": 0.19036886447342002,
+        "center_norm_mean": 0.4342181555328281
+      },
+      "linear_interp": {
+        "n": 6,
+        "iou_mean": 0.19036886447342002,
+        "center_norm_mean": 0.4342181555328281
+      },
+      "homography_chained": {
+        "n": 6,
+        "iou_mean": 0.0,
+        "center_norm_mean": 0.6161532170582743
+      },
+      "homography_direct": {
+        "n": 6,
+        "iou_mean": 0.34248646645029984,
+        "center_norm_mean": 1.0106908717664513
+      }
+    },
+    "650": {
+      "static_box": {
+        "n": 6,
+        "iou_mean": 0.18013000142159985,
+        "center_norm_mean": 0.44957640775193863
+      },
+      "linear_interp": {
+        "n": 6,
+        "iou_mean": 0.18013000142159985,
+        "center_norm_mean": 0.44957640775193863
+      },
+      "homography_chained": {
+        "n": 6,
+        "iou_mean": 0.006731438905256518,
+        "center_norm_mean": 0.5753402345956297
+      },
+      "homography_direct": {
+        "n": 6,
+        "iou_mean": 0.2964008281111696,
+        "center_norm_mean": 0.9626652083716859
+      }
+    },
+    "660": {
+      "static_box": {
+        "n": 6,
+        "iou_mean": 0.1743130730384657,
+        "center_norm_mean": 0.45802212209011905
+      },
+      "linear_interp": {
+        "n": 6,
+        "iou_mean": 0.1743130730384657,
+        "center_norm_mean": 0.45802212209011905
+      },
+      "homography_chained": {
+        "n": 6,
+        "iou_mean": 0.0,
+        "center_norm_mean": 0.6110957437381815
+      },
+      "homography_direct": {
+        "n": 6,
+        "iou_mean": 0.5182079943723126,
+        "center_norm_mean": 0.16508580982906862
+      }
+    },
+    "670": {
+      "static_box": {
+        "n": 6,
+        "iou_mean": 0.16098365165935152,
+        "center_norm_mean": 0.478851841191722
+      },
+      "linear_interp": {
+        "n": 6,
+        "iou_mean": 0.16098365165935152,
+        "center_norm_mean": 0.478851841191722
+      },
+      "homography_chained": {
+        "n": 6,
+        "iou_mean": 0.0,
+        "center_norm_mean": 0.6323428568276867
+      },
+      "homography_direct": {
+        "n": 6,
+        "iou_mean": 0.04919098233032299,
+        "center_norm_mean": 0.5767081718070333
+      }
+    },
+    "680": {
+      "static_box": {
+        "n": 6,
+        "iou_mean": 0.15338458969664454,
+        "center_norm_mean": 0.49162166762804344
+      },
+      "linear_interp": {
+        "n": 6,
+        "iou_mean": 0.15338458969664454,
+        "center_norm_mean": 0.49162166762804344
+      },
+      "homography_chained": {
+        "n": 6,
+        "iou_mean": 0.0,
+        "center_norm_mean": 0.6911427705299875
+      },
+      "homography_direct": {
+        "n": 6,
+        "iou_mean": 0.002224495066090939,
+        "center_norm_mean": 0.707091840070305
+      }
+    },
+    "690": {
+      "static_box": {
+        "n": 6,
+        "iou_mean": 0.14670326533837555,
+        "center_norm_mean": 0.5020990861430557
+      },
+      "linear_interp": {
+        "n": 6,
+        "iou_mean": 0.14670326533837555,
+        "center_norm_mean": 0.5020990861430557
+      },
+      "homography_chained": {
+        "n": 6,
+        "iou_mean": 0.0,
+        "center_norm_mean": 0.7023685920156358
+      },
+      "homography_direct": {
+        "n": 6,
+        "iou_mean": 0.22192059070128867,
+        "center_norm_mean": 0.4709256019811185
+      }
+    },
+    "700": {
+      "static_box": {
+        "n": 6,
+        "iou_mean": 0.13720018252971547,
+        "center_norm_mean": 0.5175700787293
+      },
+      "linear_interp": {
+        "n": 6,
+        "iou_mean": 0.13720018252971547,
+        "center_norm_mean": 0.5175700787293
+      },
+      "homography_chained": {
+        "n": 6,
+        "iou_mean": 0.0,
+        "center_norm_mean": 0.7062384249917543
+      },
+      "homography_direct": {
+        "n": 6,
+        "iou_mean": 0.0016960193329480903,
+        "center_norm_mean": 0.7681407192425556
+      }
+    },
+    "710": {
+      "static_box": {
+        "n": 6,
+        "iou_mean": 0.131642736420318,
+        "center_norm_mean": 0.5278597041660085
+      },
+      "linear_interp": {
+        "n": 6,
+        "iou_mean": 0.131642736420318,
+        "center_norm_mean": 0.5278597041660085
+      },
+      "homography_chained": {
+        "n": 6,
+        "iou_mean": 0.0,
+        "center_norm_mean": 0.70794476981245
+      },
+      "homography_direct": {
+        "n": 6,
+        "iou_mean": 0.22723189614364916,
+        "center_norm_mean": 0.4661904102672183
+      }
+    },
+    "720": {
+      "static_box": {
+        "n": 6,
+        "iou_mean": 0.12196166083810811,
+        "center_norm_mean": 0.5454019239941406
+      },
+      "linear_interp": {
+        "n": 6,
+        "iou_mean": 0.12196166083810811,
+        "center_norm_mean": 0.5454019239941406
+      },
+      "homography_chained": {
+        "n": 6,
+        "iou_mean": 0.0,
+        "center_norm_mean": 0.7293750510124962
+      },
+      "homography_direct": {
+        "n": 6,
+        "iou_mean": 0.20630130582352504,
+        "center_norm_mean": 0.48088223554135373
+      }
+    },
+    "730": {
+      "static_box": {
+        "n": 6,
+        "iou_mean": 0.11865043521784724,
+        "center_norm_mean": 0.5491504373023393
+      },
+      "linear_interp": {
+        "n": 6,
+        "iou_mean": 0.11865043521784724,
+        "center_norm_mean": 0.5491504373023393
+      },
+      "homography_chained": {
+        "n": 6,
+        "iou_mean": 0.0,
+        "center_norm_mean": 0.753465963101407
+      },
+      "homography_direct": {
+        "n": 6,
+        "iou_mean": 0.0,
+        "center_norm_mean": 0.8253574971438066
+      }
+    },
+    "740": {
+      "static_box": {
+        "n": 6,
+        "iou_mean": 0.11725628088633443,
+        "center_norm_mean": 0.5500606397934031
+      },
+      "linear_interp": {
+        "n": 6,
+        "iou_mean": 0.11725628088633443,
+        "center_norm_mean": 0.5500606397934031
+      },
+      "homography_chained": {
+        "n": 6,
+        "iou_mean": 0.0,
+        "center_norm_mean": 0.7462665649542825
+      },
+      "homography_direct": {
+        "n": 6,
+        "iou_mean": 0.17226831359843606,
+        "center_norm_mean": 0.43093740493745
+      }
+    },
+    "750": {
+      "static_box": {
+        "n": 6,
+        "iou_mean": 0.11725628088633443,
+        "center_norm_mean": 0.5500606397934031
+      },
+      "linear_interp": {
+        "n": 6,
+        "iou_mean": 0.11725628088633443,
+        "center_norm_mean": 0.5500606397934031
+      },
+      "homography_chained": {
+        "n": 6,
+        "iou_mean": 0.0,
+        "center_norm_mean": 0.794782874437533
+      },
+      "homography_direct": {
+        "n": 6,
+        "iou_mean": 0.0,
+        "center_norm_mean": 0.8686535271722525
+      }
+    },
+    "760": {
+      "static_box": {
+        "n": 6,
+        "iou_mean": 0.11725628088633443,
+        "center_norm_mean": 0.5500606397934031
+      },
+      "linear_interp": {
+        "n": 6,
+        "iou_mean": 0.11725628088633443,
+        "center_norm_mean": 0.5500606397934031
+      },
+      "homography_chained": {
+        "n": 6,
+        "iou_mean": 0.0,
+        "center_norm_mean": 0.9067304987548743
+      },
+      "homography_direct": {
+        "n": 6,
+        "iou_mean": 0.0,
+        "center_norm_mean": 0.8655933080136174
+      }
+    },
+    "770": {
+      "static_box": {
+        "n": 6,
+        "iou_mean": 0.11725628088633443,
+        "center_norm_mean": 0.5500606397934031
+      },
+      "linear_interp": {
+        "n": 6,
+        "iou_mean": 0.11725628088633443,
+        "center_norm_mean": 0.5500606397934031
+      },
+      "homography_chained": {
+        "n": 6,
+        "iou_mean": 0.0,
+        "center_norm_mean": 0.9542846827067265
+      },
+      "homography_direct": {
+        "n": 6,
+        "iou_mean": 0.262891871907125,
+        "center_norm_mean": 0.30578754058956586
+      }
+    },
+    "780": {
+      "static_box": {
+        "n": 6,
+        "iou_mean": 0.11725628088633443,
+        "center_norm_mean": 0.5500606397934031
+      },
+      "linear_interp": {
+        "n": 6,
+        "iou_mean": 0.11725628088633443,
+        "center_norm_mean": 0.5500606397934031
+      },
+      "homography_chained": {
+        "n": 6,
+        "iou_mean": 0.0,
+        "center_norm_mean": 1.0050824628085133
+      },
+      "homography_direct": {
+        "n": 6,
+        "iou_mean": 0.0,
+        "center_norm_mean": 2.0467099005992626
+      }
+    },
+    "790": {
+      "static_box": {
+        "n": 6,
+        "iou_mean": 0.11725628088633443,
+        "center_norm_mean": 0.5500606397934031
+      },
+      "linear_interp": {
+        "n": 6,
+        "iou_mean": 0.11725628088633443,
+        "center_norm_mean": 0.5500606397934031
+      },
+      "homography_chained": {
+        "n": 6,
+        "iou_mean": 0.0,
+        "center_norm_mean": 1.0828490159967155
+      },
+      "homography_direct": {
+        "n": 6,
+        "iou_mean": 0.0,
+        "center_norm_mean": 1.471939400333229
+      }
+    },
+    "800": {
+      "static_box": {
+        "n": 6,
+        "iou_mean": 0.11725628088633443,
+        "center_norm_mean": 0.5500606397934031
+      },
+      "linear_interp": {
+        "n": 6,
+        "iou_mean": 0.11725628088633443,
+        "center_norm_mean": 0.5500606397934031
+      },
+      "homography_chained": {
+        "n": 6,
+        "iou_mean": 0.0,
+        "center_norm_mean": 1.1330933689017837
+      },
+      "homography_direct": {
+        "n": 6,
+        "iou_mean": 0.0,
+        "center_norm_mean": 1.154867532381622
+      }
+    },
+    "810": {
+      "static_box": {
+        "n": 6,
+        "iou_mean": 0.11725628088633443,
+        "center_norm_mean": 0.5500606397934031
+      },
+      "linear_interp": {
+        "n": 6,
+        "iou_mean": 0.11725628088633443,
+        "center_norm_mean": 0.5500606397934031
+      },
+      "homography_chained": {
+        "n": 6,
+        "iou_mean": 0.0,
+        "center_norm_mean": 1.1231213805270415
+      },
+      "homography_direct": {
+        "n": 6,
+        "iou_mean": 0.0,
+        "center_norm_mean": 1.5275286900339589
+      }
+    },
+    "820": {
+      "static_box": {
+        "n": 6,
+        "iou_mean": 0.11725628088633443,
+        "center_norm_mean": 0.5500606397934031
+      },
+      "linear_interp": {
+        "n": 6,
+        "iou_mean": 0.11725628088633443,
+        "center_norm_mean": 0.5500606397934031
+      },
+      "homography_chained": {
+        "n": 6,
+        "iou_mean": 0.0,
+        "center_norm_mean": 1.1194454760332586
+      },
+      "homography_direct": {
+        "n": 6,
+        "iou_mean": 0.0,
+        "center_norm_mean": 1.135681531617422
+      }
+    },
+    "830": {
+      "static_box": {
+        "n": 6,
+        "iou_mean": 0.11725628088633443,
+        "center_norm_mean": 0.5500606397934031
+      },
+      "linear_interp": {
+        "n": 6,
+        "iou_mean": 0.11725628088633443,
+        "center_norm_mean": 0.5500606397934031
+      },
+      "homography_chained": {
+        "n": 6,
+        "iou_mean": 0.0,
+        "center_norm_mean": 1.1356265831814587
+      },
+      "homography_direct": {
+        "n": 6,
+        "iou_mean": 0.08319080234513905,
+        "center_norm_mean": 0.6348073872332475
+      }
+    },
+    "840": {
+      "static_box": {
+        "n": 6,
+        "iou_mean": 0.11725628088633443,
+        "center_norm_mean": 0.5500606397934031
+      },
+      "linear_interp": {
+        "n": 6,
+        "iou_mean": 0.11725628088633443,
+        "center_norm_mean": 0.5500606397934031
+      },
+      "homography_chained": {
+        "n": 6,
+        "iou_mean": 0.0,
+        "center_norm_mean": 1.1561929677806257
+      },
+      "homography_direct": {
+        "n": 6,
+        "iou_mean": 0.0,
+        "center_norm_mean": 1.2266006828917848
+      }
+    },
+    "850": {
+      "static_box": {
+        "n": 6,
+        "iou_mean": 0.11725628088633443,
+        "center_norm_mean": 0.5500606397934031
+      },
+      "linear_interp": {
+        "n": 6,
+        "iou_mean": 0.11725628088633443,
+        "center_norm_mean": 0.5500606397934031
+      },
+      "homography_chained": {
+        "n": 6,
+        "iou_mean": 0.0,
+        "center_norm_mean": 1.177558126480847
+      },
+      "homography_direct": {
+        "n": 6,
+        "iou_mean": 0.0,
+        "center_norm_mean": 1.2682058579387894
+      }
+    },
+    "860": {
+      "static_box": {
+        "n": 6,
+        "iou_mean": 0.11725628088633443,
+        "center_norm_mean": 0.5500606397934031
+      },
+      "linear_interp": {
+        "n": 6,
+        "iou_mean": 0.11725628088633443,
+        "center_norm_mean": 0.5500606397934031
+      },
+      "homography_chained": {
+        "n": 6,
+        "iou_mean": 0.0,
+        "center_norm_mean": 1.2263450496806072
+      },
+      "homography_direct": {
+        "n": 6,
+        "iou_mean": 0.0607140801156258,
+        "center_norm_mean": 0.8897199273096619
+      }
+    },
+    "870": {
+      "static_box": {
+        "n": 6,
+        "iou_mean": 0.11725628088633443,
+        "center_norm_mean": 0.5500606397934031
+      },
+      "linear_interp": {
+        "n": 6,
+        "iou_mean": 0.11725628088633443,
+        "center_norm_mean": 0.5500606397934031
+      },
+      "homography_chained": {
+        "n": 6,
+        "iou_mean": 0.0,
+        "center_norm_mean": 1.307525850450724
+      },
+      "homography_direct": {
+        "n": 6,
+        "iou_mean": 0.0,
+        "center_norm_mean": 1.436285652747636
+      }
+    },
+    "880": {
+      "static_box": {
+        "n": 6,
+        "iou_mean": 0.11725628088633443,
+        "center_norm_mean": 0.5500606397934031
+      },
+      "linear_interp": {
+        "n": 6,
+        "iou_mean": 0.11725628088633443,
+        "center_norm_mean": 0.5500606397934031
+      },
+      "homography_chained": {
+        "n": 6,
+        "iou_mean": 0.0,
+        "center_norm_mean": 1.318132452848439
+      },
+      "homography_direct": {
+        "n": 6,
+        "iou_mean": 0.0,
+        "center_norm_mean": 1.1291617908569105
+      }
+    },
+    "890": {
+      "static_box": {
+        "n": 6,
+        "iou_mean": 0.11725628088633443,
+        "center_norm_mean": 0.5500606397934031
+      },
+      "linear_interp": {
+        "n": 6,
+        "iou_mean": 0.11725628088633443,
+        "center_norm_mean": 0.5500606397934031
+      },
+      "homography_chained": {
+        "n": 6,
+        "iou_mean": 0.0,
+        "center_norm_mean": 1.3082553765585627
+      },
+      "homography_direct": {
+        "n": 6,
+        "iou_mean": 0.0,
+        "center_norm_mean": 1.4345255270800301
+      }
+    },
+    "900": {
+      "static_box": {
+        "n": 6,
+        "iou_mean": 0.11497144764851852,
+        "center_norm_mean": 0.5554549858225734
+      },
+      "linear_interp": {
+        "n": 6,
+        "iou_mean": 0.11497144764851852,
+        "center_norm_mean": 0.5554549858225734
+      },
+      "homography_chained": {
+        "n": 6,
+        "iou_mean": 0.0,
+        "center_norm_mean": 1.3293571783911846
+      },
+      "homography_direct": {
+        "n": 6,
+        "iou_mean": 0.0,
+        "center_norm_mean": 1.4646803266399528
+      }
+    },
+    "910": {
+      "static_box": {
+        "n": 6,
+        "iou_mean": 0.10754990256257276,
+        "center_norm_mean": 0.5629647418454627
+      },
+      "linear_interp": {
+        "n": 6,
+        "iou_mean": 0.10754990256257276,
+        "center_norm_mean": 0.5629647418454627
+      },
+      "homography_chained": {
+        "n": 6,
+        "iou_mean": 0.0,
+        "center_norm_mean": 1.3059342084356904
+      },
+      "homography_direct": {
+        "n": 6,
+        "iou_mean": 0.0,
+        "center_norm_mean": 2.459101322310904
+      }
+    },
+    "920": {
+      "static_box": {
+        "n": 6,
+        "iou_mean": 0.09929074637667341,
+        "center_norm_mean": 0.572099829624026
+      },
+      "linear_interp": {
+        "n": 6,
+        "iou_mean": 0.09929074637667341,
+        "center_norm_mean": 0.572099829624026
+      },
+      "homography_chained": {
+        "n": 6,
+        "iou_mean": 0.0,
+        "center_norm_mean": 1.331491774543363
+      },
+      "homography_direct": {
+        "n": 6,
+        "iou_mean": 0.0,
+        "center_norm_mean": 1.4765338028953263
+      }
+    },
+    "930": {
+      "static_box": {
+        "n": 6,
+        "iou_mean": 0.09288164729626713,
+        "center_norm_mean": 0.5783055982899704
+      },
+      "linear_interp": {
+        "n": 6,
+        "iou_mean": 0.09288164729626713,
+        "center_norm_mean": 0.5783055982899704
+      },
+      "homography_chained": {
+        "n": 6,
+        "iou_mean": 0.0,
+        "center_norm_mean": 1.3601950529516085
+      },
+      "homography_direct": {
+        "n": 6,
+        "iou_mean": 0.0,
+        "center_norm_mean": 1.4631552382152755
+      }
+    },
+    "940": {
+      "static_box": {
+        "n": 6,
+        "iou_mean": 0.08332787179606348,
+        "center_norm_mean": 0.5915074468767417
+      },
+      "linear_interp": {
+        "n": 6,
+        "iou_mean": 0.08332787179606348,
+        "center_norm_mean": 0.5915074468767417
+      },
+      "homography_chained": {
+        "n": 6,
+        "iou_mean": 0.0,
+        "center_norm_mean": 1.445079909143244
+      },
+      "homography_direct": {
+        "n": 6,
+        "iou_mean": 0.0,
+        "center_norm_mean": 1.5091306756873133
+      }
+    },
+    "950": {
+      "static_box": {
+        "n": 6,
+        "iou_mean": 0.07619415317403248,
+        "center_norm_mean": 0.6024891059587485
+      },
+      "linear_interp": {
+        "n": 6,
+        "iou_mean": 0.07619415317403248,
+        "center_norm_mean": 0.6024891059587485
+      },
+      "homography_chained": {
+        "n": 6,
+        "iou_mean": 0.0,
+        "center_norm_mean": 1.444828448558817
+      },
+      "homography_direct": {
+        "n": 6,
+        "iou_mean": 0.0,
+        "center_norm_mean": 2.592720230391972
+      }
+    },
+    "960": {
+      "static_box": {
+        "n": 6,
+        "iou_mean": 0.07051408453635387,
+        "center_norm_mean": 0.6080397432728886
+      },
+      "linear_interp": {
+        "n": 6,
+        "iou_mean": 0.07051408453635387,
+        "center_norm_mean": 0.6080397432728886
+      },
+      "homography_chained": {
+        "n": 6,
+        "iou_mean": 0.0,
+        "center_norm_mean": 1.436201513420565
+      },
+      "homography_direct": {
+        "n": 6,
+        "iou_mean": 0.0,
+        "center_norm_mean": 1.53188775723647
+      }
+    },
+    "970": {
+      "static_box": {
+        "n": 9,
+        "iou_mean": 0.06237742699953387,
+        "center_norm_mean": 0.619689873346376
+      },
+      "linear_interp": {
+        "n": 9,
+        "iou_mean": 0.06237742699953387,
+        "center_norm_mean": 0.619689873346376
+      },
+      "homography_chained": {
+        "n": 9,
+        "iou_mean": 0.0,
+        "center_norm_mean": 1.3513451143824637
+      },
+      "homography_direct": {
+        "n": 9,
+        "iou_mean": 0.0,
+        "center_norm_mean": 1.434768301955697
+      }
+    }
+  },
+  "scene_strata": {
+    "magnitude": {
+      "uav0000339_00001_v": "low",
+      "uav0000268_05773_v": "low",
+      "uav0000086_00000_v": "low",
+      "uav0000117_02622_v": "medium",
+      "uav0000305_00000_v": "medium",
+      "uav0000137_00458_v": "high",
+      "uav0000182_00000_v": "high"
+    },
+    "motion_type": {
+      "uav0000086_00000_v": "translation_dominant",
+      "uav0000117_02622_v": "translation_dominant",
+      "uav0000137_00458_v": "translation_dominant",
+      "uav0000182_00000_v": "translation_dominant",
+      "uav0000268_05773_v": "translation_dominant",
+      "uav0000305_00000_v": "translation_dominant",
+      "uav0000339_00001_v": "translation_dominant"
+    },
+    "altitude_change": {
+      "uav0000137_00458_v": "low",
+      "uav0000268_05773_v": "low",
+      "uav0000339_00001_v": "low",
+      "uav0000086_00000_v": "medium",
+      "uav0000117_02622_v": "medium",
+      "uav0000305_00000_v": "high",
+      "uav0000182_00000_v": "high"
+    }
+  }
+}

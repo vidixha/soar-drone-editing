@@ -1,0 +1,93 @@
+{
+  "uav0000086_00000_v": {
+    "n_frames_total": 464,
+    "n_sampled": 40,
+    "n_transforms": 39,
+    "image_size_hw": [
+      756,
+      1344
+    ],
+    "translation_px_per_frame_median": 1.8917078338433262,
+    "translation_norm_per_frame_median": 0.0012267606185749364,
+    "rotation_deg_per_frame_median": 0.14133199828885995,
+    "scale_change_per_frame_median": 0.0006456441259711232
+  },
+  "uav0000182_00000_v": {
+    "n_frames_total": 363,
+    "n_sampled": 40,
+    "n_transforms": 39,
+    "image_size_hw": [
+      756,
+      1344
+    ],
+    "translation_px_per_frame_median": 1.5905075375022304,
+    "translation_norm_per_frame_median": 0.0010314341229904394,
+    "rotation_deg_per_frame_median": 0.004692260817531081,
+    "scale_change_per_frame_median": 0.0015182579844359168
+  },
+  "uav0000117_02622_v": {
+    "n_frames_total": 349,
+    "n_sampled": 40,
+    "n_transforms": 39,
+    "image_size_hw": [
+      1530,
+      2720
+    ],
+    "translation_px_per_frame_median": 2.760518606485481,
+    "translation_norm_per_frame_median": 0.0008845590026433439,
+    "rotation_deg_per_frame_median": 0.01858989502039712,
+    "scale_change_per_frame_median": 0.0006399327267350569
+  },
+  "uav0000339_00001_v": {
+    "n_frames_total": 275,
+    "n_sampled": 35,
+    "n_transforms": 34,
+    "image_size_hw": [
+      1071,
+      1904
+    ],
+    "translation_px_per_frame_median": 0.8400483468614749,
+    "translation_norm_per_frame_median": 0.0003845407505915859,
+    "rotation_deg_per_frame_median": 0.010198235639021514,
+    "scale_change_per_frame_median": 0.0002743094291821485
+  },
+  "uav0000137_00458_v": {
+    "n_frames_total": 233,
+    "n_sampled": 30,
+    "n_transforms": 29,
+    "image_size_hw": [
+      1512,
+      2688
+    ],
+    "translation_px_per_frame_median": 2.299866030022435,
+    "translation_norm_per_frame_median": 0.0007457243193568856,
+    "rotation_deg_per_frame_median": 0.0083444670737451,
+    "scale_change_per_frame_median": 0.0001653304603086575
+  },
+  "uav0000305_00000_v": {
+    "n_frames_total": 184,
+    "n_sampled": 23,
+    "n_transforms": 22,
+    "image_size_hw": [
+      1071,
+      1904
+    ],
+    "translation_px_per_frame_median": 1.959834410673782,
+    "translation_norm_per_frame_median": 0.0008971343115326554,
+    "rotation_deg_per_frame_median": 0.0008774816035823214,
+    "scale_change_per_frame_median": 0.001462450430289794
+  },
+  "uav0000268_05773_v": {
+    "n_frames_total": 978,
+    "n_sampled": 40,
+    "n_transforms": 39,
+    "image_size_hw": [
+      2160,
+      3840
+    ],
+    "translation_px_per_frame_median": 0.5950030704370486,
+    "translation_norm_per_frame_median": 0.00013504951060076215,
+    "rotation_deg_per_frame_median": 0.004471686491098209,
+    "scale_change_per_frame_median": 0.0002014485410019723
+  }
+}

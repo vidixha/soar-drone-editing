@@ -1,0 +1,72 @@
+{
+  "uav0000086_00000_v": {
+    "n_frames_total": 464,
+    "n_key_frames": 94,
+    "n_steps_matched": 93,
+    "n_steps_total": 93,
+    "translation_px_per_frame_median": 1.329401259407334,
+    "rotation_deg_per_frame_median": 0.06663356699650021,
+    "max_cumulative_scale_deviation": 0.04833793445642065,
+    "scale_deviation_per_step_median": 0.0021866940440595783
+  },
+  "uav0000117_02622_v": {
+    "n_frames_total": 349,
+    "n_key_frames": 71,
+    "n_steps_matched": 70,
+    "n_steps_total": 70,
+    "translation_px_per_frame_median": 1.6670114492020915,
+    "rotation_deg_per_frame_median": 0.010983191758931452,
+    "max_cumulative_scale_deviation": 0.2525900898070833,
+    "scale_deviation_per_step_median": 0.002817008238546692
+  },
+  "uav0000137_00458_v": {
+    "n_frames_total": 233,
+    "n_key_frames": 48,
+    "n_steps_matched": 47,
+    "n_steps_total": 47,
+    "translation_px_per_frame_median": 2.2228087926140687,
+    "rotation_deg_per_frame_median": 0.008550240765789112,
+    "max_cumulative_scale_deviation": 0.021360298840043535,
+    "scale_deviation_per_step_median": 0.0004768354755383397
+  },
+  "uav0000182_00000_v": {
+    "n_frames_total": 363,
+    "n_key_frames": 74,
+    "n_steps_matched": 73,
+    "n_steps_total": 73,
+    "translation_px_per_frame_median": 2.3775929209305584,
+    "rotation_deg_per_frame_median": 0.0311341943086546,
+    "max_cumulative_scale_deviation": 1.7588622895063541,
+    "scale_deviation_per_step_median": 0.011072255564824385
+  },
+  "uav0000268_05773_v": {
+    "n_frames_total": 978,
+    "n_key_frames": 197,
+    "n_steps_matched": 196,
+    "n_steps_total": 196,
+    "translation_px_per_frame_median": 0.8712139614619185,
+    "rotation_deg_per_frame_median": 0.00653322758958626,
+    "max_cumulative_scale_deviation": 0.024492573799769213,
+    "scale_deviation_per_step_median": 0.0010329670639964705
+  },
+  "uav0000305_00000_v": {
+    "n_frames_total": 184,
+    "n_key_frames": 38,
+    "n_steps_matched": 37,
+    "n_steps_total": 37,
+    "translation_px_per_frame_median": 2.063698651747732,
+    "rotation_deg_per_frame_median": 0.001457947760108354,
+    "max_cumulative_scale_deviation": 0.21522382891983716,
+    "scale_deviation_per_step_median": 0.008448110194562597
+  },
+  "uav0000339_00001_v": {
+    "n_frames_total": 275,
+    "n_key_frames": 56,
+    "n_steps_matched": 55,
+    "n_steps_total": 55,
+    "translation_px_per_frame_median": 0.8083584280572852,
+    "rotation_deg_per_frame_median": 0.012276917851086862,
+    "max_cumulative_scale_deviation": 0.08722219738443326,
+    "scale_deviation_per_step_median": 0.0013158997451493404
+  }
+}
