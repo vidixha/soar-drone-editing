@@ -4,8 +4,21 @@ Answers one question: does TRACE's ground-level result (a learned cross-view mod
 beats geometric baselines) hold on aerial drone video, or does it invert? See
 `FINDINGS.md` for the answer and `NOTES.md` for everything verified before building this.
 
-No training, no generative model, no rendering, no edited video output. Output is numbers
-and curves only.
+No training was done anywhere in this project. The core geometry method below uses no
+model at all. A later extension tested a pretrained generative video model (VACE) on top
+of the geometry, see the example below and `REPORT.md` for the full account.
+
+## Example: object insertion using a real geometric trajectory
+
+VACE (a pretrained AI video editor) was given a mask following the real, geometry-derived
+path of a car already driving through this footage, instead of an arbitrary fixed box.
+
+- [Source video (unedited)](results/vace_trajectory_result/src_video.mp4)
+- [Generated output](results/vace_trajectory_result/out_video.mp4)
+
+Click each link to preview it in GitHub's file viewer. The generated video shows a
+correctly placed, recognizable car following the same path as the real one in the source,
+the first result in this project where an inserted object actually looked right.
 
 ## Setup (from a clean checkout)
 
