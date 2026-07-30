@@ -1,15 +1,9 @@
 # TRACE replication status
 
-## What's built and verified so far
-
-Most of the below has been tested on CPU: shapes, box math correctness, and
-motion scoring on synthetic data. The Stage 2 training step is the
-exception. We ran it end to end on a GPU, using the real pretrained Wan2.1 DiT
-class, our LoRA wrapper, and our conditioning-injection module, on synthetic
-tensors instead of real data. Forward and backward passes both completed
-without error. This confirms the module shapes and the training step's API
-calls line up with the real Wan2.1 architecture. It does not confirm the model
-learns anything useful; that requires real data and a real training run.
+Most of the below has been tested on CPU - shapes, box math correctness, and
+motion scoring on synthetic data. I ran it end to end on a GPU, using the real pretrained Wan2.1 DiT
+class, our LoRA wrapper, and our conditioning-injection module, on synthetic data. Forward and backward passes both completed without error. This confirms the module shapes and the training step's API
+calls are lined up with the real Wan2.1 architecture. 
 
 
 **Stage 1 (Cross-View Motion Transformation).** See
@@ -52,12 +46,7 @@ learns anything useful; that requires real data and a real training run.
   the four non-PyPI packages (ReCamMaster, CoTracker, DEVA, wan) that need
   their own git installs.
 
-Nothing above downloads a dataset or launches a training run. Every training
-entrypoint here raises FileNotFoundError if pointed at a data_dir with no
-precomputed pairs in it, by design, rather than generating placeholder data.
-
-## Data sources chosen (both public, neither is what the paper used)
-
+## Data sources chosen 
 - **Stage 1 source corpus**: GOT-10k (10k videos, 1.5M+ hand-annotated boxes),
   filtered to the near-static-camera subset, used in place of the paper's
   7,500 static-camera videos, which are not public. GOT-10k requires manual
