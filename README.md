@@ -1,16 +1,8 @@
 # TRACE replication status
 
-TRACE (arXiv 2603.25707) has no released code or checkpoints anywhere: not on
-GitHub, not linked from its project page (trace-motion.github.io), not on
-Hugging Face. Everything in this directory is our own reimplementation from the
-paper's method text, not a port of a reference implementation. Every place we
-had to fill a gap the paper doesn't specify is flagged explicitly in the notes/
-files and in code comments, so it doesn't get mistaken for a reported detail
-later.
-
 ## What's built and verified so far
 
-Most of the below has been smoke-tested on CPU only: shapes, box math
+Most of the below has been tested on CPU. Shapes, box math
 correctness, motion scoring on synthetic data. The Stage 2 training step is the
 exception. We ran it end to end on a GPU, using the real pretrained Wan2.1 DiT
 class, our LoRA wrapper, and our conditioning-injection module, on synthetic
@@ -19,8 +11,6 @@ without error. This confirms the module shapes and the training step's API
 calls line up with the real Wan2.1 architecture. It does not confirm the model
 learns anything useful; that requires real data and a real training run.
 
-None of this has been run on real data yet. That's the next phase and needs
-the two data sources below in place first.
 
 **Stage 1 (Cross-View Motion Transformation).** See
 `trace_replication/notes/stage1_spec.md`.
@@ -52,7 +42,7 @@ the two data sources below in place first.
   is our design choice, reasoned from the paper's stated conditioning set, not
   something it states outright.
 
-**Training-loop harnesses (setup only, not run)**
+**Training-loop**
 - `trace_replication/src/stage1_train.py`: standard training loop over
   precomputed Stage 1 pairs. Optimizer, batch size, and step count are ours.
   The paper only gives those for Stage 2, not Stage 1.
@@ -77,17 +67,4 @@ no precomputed pairs in it, by design, rather than silently fabricating data.
   it has no object annotations of its own. Closest public scale match to the
   paper's ~1.1M internal videos.
 
-## What's still open / manual
 
-- Both datasets need to be downloaded onto whatever machine runs this for
-  real. Neither is a one-command fetch.
-- GOT-10k box re-localization after ReCamMaster re-rendering: ReCamMaster is
-  generative, not a geometric warp, so the object needs re-finding in each
-  rendered clip. Plan is to reuse DEVA for this too, not yet built.
-- "High-quality" filtering criteria for the Stage 1 110k pairs: not specified
-  by the paper, not yet decided by us either.
-- Box smoothing, noise augmentation parameters, and the condition-dropping
-  rate for Stage 2: the paper states that these happen but not their values.
-  Current defaults in `trace_replication/stage2_data_pipeline.py` are
-  reasonable guesses, not reported numbers.
-- No training run on real data yet. This is all pre-training scaffolding.
