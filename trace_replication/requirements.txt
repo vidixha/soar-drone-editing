@@ -1,0 +1,15 @@
+# Environment setup only -- installing these does not download any datasets or
+# run any training. Some of these (ReCamMaster, CoTracker, DEVA, wan) are not on
+# PyPI and need their own git clones per the docstrings in recam_wrapper.py,
+# cotracker_wrapper.py, and stage2_data_pipeline.py.
+
+torch
+numpy
+opencv-python-headless
+peft
+
+# Install separately, not via this file (see each module's docstring):
+#   ReCamMaster: git clone https://github.com/KwaiVGI/ReCamMaster.git && pip install -e .
+#   CoTracker:   pip install git+https://github.com/facebookresearch/co-tracker.git
+#   DEVA:        git clone https://github.com/hkchengrex/Tracking-Anything-with-DEVA.git
+#   wan:         pip install --no-deps 'wan@git+https://github.com/Wan-Video/Wan2.1.git'
