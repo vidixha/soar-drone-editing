@@ -131,8 +131,3 @@ cached under `data/`; subsequent runs reuse the cache.
   verification method.
 - Try a larger or more capable generative video model to see whether output quality
   improves now that the placement approach is validated.
-
-## Related work in this branch
-
-`trace_replication/` holds a separate, in-progress reimplementation of a
-different paper (TRACE). See `trace_replication/README.md` for its status.
