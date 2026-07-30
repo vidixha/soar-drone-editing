@@ -64,8 +64,9 @@ precomputed pairs in it, by design, rather than generating placeholder data.
   registration and download from http://got-10k.aitestunion.com/. It is not
   fetchable via a script.
 - **Stage 2 training corpus**: OpenVid-1M (huggingface.co/datasets/nkp37/OpenVid-1M,
-  ~1M text-video pairs, CC-BY-4.0), run through DEVA for per-object masks since
-  it has no object annotations of its own. Closest public scale match to the
-  paper's ~1.1M internal videos.
+  ~1M text-video pairs, CC-BY-4.0), used in place of the paper's ~1.1M
+  internal videos, which are not public. OpenVid-1M is the closest public
+  dataset at matching scale. It has no object annotations of its own, so we
+  run it through DEVA to get per-object masks.
 
 
