@@ -60,4 +60,84 @@ calls are lined up with the real Wan2.1 architecture.
   OpenVid-1M yet. `stage2_data_pipeline.py` consumes DEVA's output format;
   it does not call DEVA itself.
 
+## How to run
+
+```bash
+cd trace_replication
+python3 -m venv .venv
+source .venv/bin/activate
+pip install -r requirements.txt
+# Non-PyPI deps (ReCamMaster, CoTracker, DEVA, wan), see requirements.txt for
+# each one's install command.
+```
+
+### Stage 1
+
+The pipeline that chains GOT-10k filtering, ReCamMaster re-rendering, and
+CoTracker track extraction into the `.pt` training-pair format
+`stage1_train.py` expects is not built yet. Each piece can be run on its own:
+
+```python
+# 1. Filter a downloaded GOT-10k directory to the near-static-camera subset,
+#    then write ReCamMaster's expected metadata.csv. Encoding each qualifying
+#    sequence's frames to an mp4 is a separate, ordinary ffmpeg step, not
+#    included here.
+from stage1_source_filter import filter_got10k, write_metadata_csv
+qualifying = filter_got10k(got10k_root=pathlib.Path("/path/to/got10k_root"))
+write_metadata_csv(qualifying, video_dir=pathlib.Path("data/stage1_videos"),
+                    out_csv=pathlib.Path("data/stage1_source/metadata.csv"))
+
+# 2. Re-render the filtered clips across ReCamMaster's 10 camera trajectories.
+from recam_wrapper import render_all_trajectories
+render_all_trajectories(
+    recammaster_repo=pathlib.Path("/path/to/ReCamMaster"),
+    dataset_path=pathlib.Path("data/stage1_source"),
+    output_dir=pathlib.Path("data/stage1_rendered"),
+    ckpt_path=pathlib.Path("/path/to/step20000.ckpt"),
+)
+
+# 3. Extract point-track grids from each rendered clip with CoTracker.
+from cotracker_wrapper import extract_point_track_grid
+tracks = extract_point_track_grid(video)  # video: (1, T, 3, H, W), see docstring
+```
+
+Once `.pt` pairs matching `stage1_train.py`'s expected schema exist under a
+data directory, training runs with:
+
+```bash
+python3 stage1_train.py --data_dir data/stage1_pairs --out_dir checkpoints/stage1
+```
+
+`--num_steps`, `--batch_size`, `--lr`, and `--device` are also available; see
+`stage1_train.py --help`. These defaults are ours, not paper-reported values,
+since the paper only gives Stage 1's architecture, not its training recipe.
+
+### Stage 2
+
+`stage2_data_pipeline.py` builds training pairs from OpenVid-1M clips and
+DEVA masks, but does not call DEVA itself; DEVA needs to be run separately
+(`demo_automatic.py` in its own repo) to produce the mask sequences this
+module consumes. There is no training-loop entrypoint yet, only
+`stage2_lora.py::train_step`, a single flow-matching step meant to be called
+from a training loop once the data pipeline is wired up:
+
+```python
+from stage2_lora import build_lora_wan_dit, ConditionInjector, train_step
+
+wan_pipe.dit = build_lora_wan_dit(wan_pipe.dit)
+injector = ConditionInjector(latent_channels=16, cond_channels=18)
+optimizer = torch.optim.AdamW(wan_pipe.dit.parameters(), lr=1.2e-5, weight_decay=0.01)
+
+for batch in dataloader:  # dataloader not built yet, see stage2_data_pipeline.py
+    loss = train_step(wan_pipe, injector, batch, optimizer)
+```
+
+Individual modules can be run standalone as a shape check without any real
+data or model weights:
+
+```bash
+python3 stage2_boxes_to_masks.py
+python3 stage2_lora.py
+```
+
 
