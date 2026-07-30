@@ -1,133 +1,93 @@
-# Aerial Cross-View Box Propagation POC
+# TRACE replication status
 
-Does a learned cross-view module beat simple geometry for
-tracking a box through camera motion, on ground-level video, and does that result
-still hold on aerial drone video?
+TRACE (arXiv 2603.25707) has no released code or checkpoints anywhere: not on
+GitHub, not linked from its project page (trace-motion.github.io), not on
+Hugging Face. Everything in this directory is our own reimplementation from the
+paper's method text, not a port of a reference implementation. Every place we
+had to fill a gap the paper doesn't specify is flagged explicitly in the notes/
+files and in code comments, so it doesn't get mistaken for a reported detail
+later.
 
-The core geometry method is training
-free and uses no model at all. A later extension tested a pretrained generative video
-model (VACE) on top of the geometry.
+## What's built and verified so far
 
-## Results
+Most of the below has been smoke-tested on CPU only: shapes, box math
+correctness, motion scoring on synthetic data. The Stage 2 training step is the
+exception. We ran it end to end on a GPU, using the real pretrained Wan2.1 DiT
+class, our LoRA wrapper, and our conditioning-injection module, on synthetic
+tensors instead of real data. Forward and backward passes both completed
+without error. This confirms the module shapes and the training step's API
+calls line up with the real Wan2.1 architecture. It does not confirm the model
+learns anything useful; that requires real data and a real training run.
 
-Tested the geometric method (background homography propagation) against a no
-compensation baseline, on two public aerial datasets (VisDrone-MOT, 7 clips, and UAVDT,
-46 clips), over 1,500 tracked objects and hundreds of thousands of frame measurements.
+None of this has been run on real data yet. That's the next phase and needs
+the two data sources below in place first.
 
-- On clips with real camera motion, the geometric method beat the no compensation
-  baseline by roughly 2 to 7 times in tracking accuracy (IoU).
-- Center position error dropped from about 136 pixels to about 36 pixels on average.
-- The advantage was largest exactly on the clips with the most camera motion, and
-  smallest or occasionally negative on very slow or static clips, where compounding
-  drift can make the geometric method perform worse than doing nothing over long
-  sequences.
-- Across the full mix of clips there was no clean line from more camera motion to more
-  benefit from geometry. Scene content mattered as much as motion speed.
+**Stage 1 (Cross-View Motion Transformation).** See
+`trace_replication/notes/stage1_spec.md`.
+- `trace_replication/src/stage1_dit.py`: the 8-layer flow-matching DiT itself,
+  matching the paper's stated depth and conditioning (first frame, 25x25
+  CoTracker point grid, reference boxes).
+- `trace_replication/src/recam_wrapper.py`: drives ReCamMaster's real public
+  inference script across its 10 built-in camera trajectories.
+- `trace_replication/src/cotracker_wrapper.py`: drives CoTracker's real public
+  predictor for the point-track grid extraction.
+- `trace_replication/src/motion_filter.py`,
+  `trace_replication/src/stage1_source_filter.py`: filters GOT-10k down to
+  near-static-camera sequences (reusing the ORB-based motion probe already
+  validated in `src/motion_probe.py`), and converts them into the metadata
+  format ReCamMaster's inference script expects.
 
-## Object insertion example
+**Stage 2 (Motion-Conditioned Video Resynthesis).** See
+`trace_replication/notes/stage2_spec.md`.
+- `trace_replication/src/stage2_boxes_to_masks.py`: renders box sequences into
+  binary spatial mask videos.
+- `trace_replication/src/stage2_lora.py`: LoRA wrapper for Wan2.1's DiT, the
+  conditioning-injection module, and the flow-matching training step, using
+  the exact hyperparameters given in the paper (LoRA, 81 frames @ 480x832 @
+  24fps, 8k steps, AdamW lr=1.2e-5, wd=0.01, batch 32).
+- `trace_replication/src/stage2_data_pipeline.py`: builds training pairs from
+  DEVA object masks, using a reconstruction-as-training / editing-as-inference
+  construction (train on erase-and-replace-at-the-real-location; at inference,
+  swap in a different target trajectory from Stage 1's output). This pattern
+  is our design choice, reasoned from the paper's stated conditioning set, not
+  something it states outright.
 
-VACE (a pretrained AI video editor) was given a mask following the real,
-geometry derived path of a car already driving through this footage, instead of an
-arbitrary fixed box, along with a text description of what to draw there.
+**Training-loop harnesses (setup only, not run)**
+- `trace_replication/src/stage1_train.py`: standard training loop over
+  precomputed Stage 1 pairs. Optimizer, batch size, and step count are ours.
+  The paper only gives those for Stage 2, not Stage 1.
+- `trace_replication/src/stage2_lora.py::train_step`: single flow-matching
+  training step using the paper's exact stated hyperparameters.
+- `trace_replication/requirements.txt`: pip-installable deps, plus notes on
+  the four non-PyPI packages (ReCamMaster, CoTracker, DEVA, wan) that need
+  their own git installs.
 
-| Original | Source as VACE saves it | VACE output |
-|---|---|---|
-| ![Untouched original](results/vace_trajectory_result/untouched_original.gif) | ![Source video](results/vace_trajectory_result/src_video.gif) | ![Generated output](results/vace_trajectory_result/out_video.gif) |
+Nothing above downloads a dataset or launches a training run. Every training
+entrypoint here fails loudly (FileNotFoundError) if pointed at a data_dir with
+no precomputed pairs in it, by design, rather than silently fabricating data.
 
-The middle column is not a byte identical copy of the untouched original: VACE resizes
-and renormalizes every input through its own tensor pipeline before saving it, even the
-unedited reference copy, which is why it looks visibly different in brightness and color
-from the true source frames on the left. Both the middle and right columns went through
-that same preprocessing, so the comparison between them is still fair.
+## Data sources chosen (both public, neither is what the paper used)
 
-Full resolution video files: [untouched original](results/vace_trajectory_result/untouched_original.gif),
-[source as VACE saved it](results/vace_trajectory_result/src_video.mp4),
-[generated output](results/vace_trajectory_result/out_video.mp4).
+- **Stage 1 source corpus**: GOT-10k (10k videos, 1.5M+ hand-annotated boxes),
+  filtered to the near-static-camera subset, standing in for the paper's 7,500
+  static-camera videos. GOT-10k requires manual registration and download from
+  http://got-10k.aitestunion.com/. It is not fetchable via a script.
+- **Stage 2 training corpus**: OpenVid-1M (huggingface.co/datasets/nkp37/OpenVid-1M,
+  ~1M text-video pairs, CC-BY-4.0), run through DEVA for per-object masks since
+  it has no object annotations of its own. Closest public scale match to the
+  paper's ~1.1M internal videos.
 
-The generated video shows a correctly placed, recognizable car following the same path
-as the real one in the source. This regenerated a car
-that was already present and already masked out, using its real path and a matching
-description, rather than inserting a wholly new object into empty space. This is an easier task than true insertion, so this is approach can work.
-## Setup 
+## What's still open / manual
 
-Python 3.10+ recommended.
-
-```bash
-cd aerial_box_propagation
-python3 -m venv .venv
-source .venv/bin/activate
-pip install fiftyone huggingface_hub datasets opencv-python-headless numpy
-```
-
-`fiftyone` is imported only for `huggingface_hub`-adjacent tooling during setup; the
-actual data path does **not** use FiftyOne's dataset loading, since that requires a
-local MongoDB instance that may not be available on every machine. Ground truth is read
-directly from the underlying dataset export's `samples.json`.
-
-## Reproducing all results
-
-```bash
-cd aerial_box_propagation/src
-
-# 1. Verify camera motion per scene (writes results/motion_probe.json)
-python3 motion_probe.py
-
-# 2. Run Protocol A: static-object camera-motion compensation.
-#    Downloads and caches VisDrone-MOT frames on first run (data/frames_cache/,
-#    ~1-2 GB across all 7 scenes at key-frame stride 5). Writes
-#    results/protocol_a_records.json and results/scene_summaries.json.
-python3 run_protocol_a.py
-
-# 3. Stratified reporting: motion magnitude, motion type, altitude change,
-#    occlusion, horizon, and the drift curve. Writes results/protocol_a_summary.json.
-python3 analyze_results.py
-```
-
-Everything downloads from Hugging Face (`Voxel51/visdrone-mot`) on first run and is
-cached under `data/`; subsequent runs reuse the cache.
-
-## What each module does
-
-- `src/data_loader.py`: parses the dataset's ground truth export directly, bypassing
-  FiftyOne and MongoDB. Frame download and caching via `huggingface_hub`.
-- `src/geometry.py`: shared affine transform and box math helpers.
-- `src/scene_transforms.py`: builds a chained background transform across
-  stride-sampled key frames per scene, using ORB features and `estimateAffinePartial2D`.
-- `src/static_track_selector.py`: selects tracks whose box motion is well explained by
-  the local frame-to-frame background transform, a practical proxy for "this object
-  does not move in the world."
-- `src/methods.py`: the box-propagation methods compared (static box, homography
-  chained, homography direct).
-- `src/metrics.py`: IoU, center displacement (pixels and normalized), scale error.
-- `src/run_protocol_a.py`: orchestrates the above into per-frame result records.
-- `src/analyze_results.py`: stratified aggregation and the drift curve.
-- `src/uavdt_data_loader.py`, `src/run_protocol_a_uavdt.py`, `src/analyze_uavdt_results.py`:
-  the same pipeline applied to a second, larger dataset (UAVDT) to confirm the result.
-
-## Known gaps
-
-- Only 7 sequences exist in the VisDrone-MOT validation split, fewer than would be
-  ideal for strong statistical claims; UAVDT's 46 clips partially address this.
-- A learned cross-view baseline was never re-implemented or trained; the comparison
-  here is geometry against a no-compensation floor, not against a learned model.
-- The static-track selection method and the homography method being evaluated share
-  the same underlying model family, which can inflate the apparent advantage of
-  geometry. An independent, non-homography-based way of confirming a track is static
-  would make this comparison more rigorous.
-- A moving-object path propagation protocol (as opposed to static-object tracking) was
-  not built.
-
-## Further directions
-
-- Insert a new object (not previously present in the footage) along a real,
-  geometry-computed path, as the direct test of true insertion rather than masked
-  object regeneration.
-- Repeat the object-insertion test on several more real tracked objects to confirm the
-  single successful case shown above was not a lucky outcome.
-- Compare a dedicated visual-SLAM camera-tracking method against the simple homography
-  approach used here, on the same clip, to see whether more precise camera tracking
-  meaningfully improves box propagation accuracy.
-- Address the static-track selection circularity noted above with an independent
-  verification method.
-- Try a larger or more capable generative video model to see whether output quality
-  improves now that the placement approach is validated.
+- Both datasets need to be downloaded onto whatever machine runs this for
+  real. Neither is a one-command fetch.
+- GOT-10k box re-localization after ReCamMaster re-rendering: ReCamMaster is
+  generative, not a geometric warp, so the object needs re-finding in each
+  rendered clip. Plan is to reuse DEVA for this too, not yet built.
+- "High-quality" filtering criteria for the Stage 1 110k pairs: not specified
+  by the paper, not yet decided by us either.
+- Box smoothing, noise augmentation parameters, and the condition-dropping
+  rate for Stage 2: the paper states that these happen but not their values.
+  Current defaults in `trace_replication/stage2_data_pipeline.py` are
+  reasonable guesses, not reported numbers.
+- No training run on real data yet. This is all pre-training scaffolding.
