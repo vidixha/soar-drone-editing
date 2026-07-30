@@ -66,7 +66,9 @@ precomputed pairs in it, by design, rather than generating placeholder data.
 - **Stage 2 training corpus**: OpenVid-1M (huggingface.co/datasets/nkp37/OpenVid-1M,
   ~1M text-video pairs, CC-BY-4.0), used in place of the paper's ~1.1M
   internal videos, which are not public. OpenVid-1M is the closest public
-  dataset at matching scale. It has no object annotations of its own, so we
-  run it through DEVA to get per-object masks.
+  dataset at matching scale. It has no object annotations of its own, so
+  per-object masks need to come from DEVA. TBD: DEVA has not been run on
+  OpenVid-1M yet. `stage2_data_pipeline.py` consumes DEVA's output format;
+  it does not call DEVA itself.
 
 
