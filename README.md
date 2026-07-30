@@ -2,8 +2,8 @@
 
 ## What's built and verified so far
 
-Most of the below has been tested on CPU. Shapes, box math
-correctness, motion scoring on synthetic data. The Stage 2 training step is the
+Most of the below has been tested on CPU: shapes, box math correctness, and
+motion scoring on synthetic data. The Stage 2 training step is the
 exception. We ran it end to end on a GPU, using the real pretrained Wan2.1 DiT
 class, our LoRA wrapper, and our conditioning-injection module, on synthetic
 tensors instead of real data. Forward and backward passes both completed
@@ -53,15 +53,16 @@ learns anything useful; that requires real data and a real training run.
   their own git installs.
 
 Nothing above downloads a dataset or launches a training run. Every training
-entrypoint here fails loudly (FileNotFoundError) if pointed at a data_dir with
-no precomputed pairs in it, by design, rather than silently fabricating data.
+entrypoint here raises FileNotFoundError if pointed at a data_dir with no
+precomputed pairs in it, by design, rather than generating placeholder data.
 
 ## Data sources chosen (both public, neither is what the paper used)
 
 - **Stage 1 source corpus**: GOT-10k (10k videos, 1.5M+ hand-annotated boxes),
-  filtered to the near-static-camera subset, standing in for the paper's 7,500
-  static-camera videos. GOT-10k requires manual registration and download from
-  http://got-10k.aitestunion.com/. It is not fetchable via a script.
+  filtered to the near-static-camera subset, used in place of the paper's
+  7,500 static-camera videos, which are not public. GOT-10k requires manual
+  registration and download from http://got-10k.aitestunion.com/. It is not
+  fetchable via a script.
 - **Stage 2 training corpus**: OpenVid-1M (huggingface.co/datasets/nkp37/OpenVid-1M,
   ~1M text-video pairs, CC-BY-4.0), run through DEVA for per-object masks since
   it has no object annotations of its own. Closest public scale match to the
