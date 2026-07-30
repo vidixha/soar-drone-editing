@@ -16,10 +16,13 @@ calls are lined up with the real Wan2.1 architecture.
 - `trace_replication/src/cotracker_wrapper.py`: drives CoTracker's real public
   predictor for the point-track grid extraction.
 - `trace_replication/src/motion_filter.py`,
-  `trace_replication/src/stage1_source_filter.py`: filters GOT-10k down to
-  near-static-camera sequences (reusing the ORB-based motion probe already
-  validated in `src/motion_probe.py`), and converts them into the metadata
-  format ReCamMaster's inference script expects.
+  `trace_replication/src/stage1_source_filter.py`: filters a source video
+  dataset down to near-static-camera sequences (reusing the ORB-based motion
+  probe already validated in `src/motion_probe.py`), and converts them into
+  the metadata format ReCamMaster's inference script expects. Currently reads
+  GOT-10k's file layout specifically; the actual source dataset is not
+  finalized, and this should become configurable rather than assuming one
+  dataset's format.
 
 **Stage 2 (Motion-Conditioned Video Resynthesis).** See
 `trace_replication/notes/stage2_spec.md`.
@@ -34,7 +37,8 @@ calls are lined up with the real Wan2.1 architecture.
   construction (train on erase-and-replace-at-the-real-location; at inference,
   swap in a different target trajectory from Stage 1's output). This pattern
   is our design choice, reasoned from the paper's stated conditioning set, not
-  something it states outright.
+  something it states outright. The training video corpus itself is not
+  finalized.
 
 **Training-loop**
 - `trace_replication/src/stage1_train.py`: standard training loop over
@@ -46,19 +50,14 @@ calls are lined up with the real Wan2.1 architecture.
   the four non-PyPI packages (ReCamMaster, CoTracker, DEVA, wan) that need
   their own git installs.
 
-## Data sources chosen 
-- **Stage 1 source corpus**: GOT-10k (10k videos, 1.5M+ hand-annotated boxes),
-  filtered to the near-static-camera subset, used in place of the paper's
-  7,500 static-camera videos, which are not public. GOT-10k requires manual
-  registration and download from http://got-10k.aitestunion.com/. It is not
-  fetchable via a script.
-- **Stage 2 training corpus**: OpenVid-1M (huggingface.co/datasets/nkp37/OpenVid-1M,
-  ~1M text-video pairs, CC-BY-4.0), used in place of the paper's ~1.1M
-  internal videos, which are not public. OpenVid-1M is the closest public
-  dataset at matching scale. It has no object annotations of its own, so
-  per-object masks need to come from DEVA. TBD: DEVA has not been run on
-  OpenVid-1M yet. `stage2_data_pipeline.py` consumes DEVA's output format;
-  it does not call DEVA itself.
+## Data sources
+
+The paper's training data is private for both stages (7,500 static-camera
+videos for Stage 1, ~1.1M internal videos for Stage 2), so both stages need a
+public substitute. Neither substitute dataset is finalized yet; the source
+corpus for Stage 1 and the training corpus for Stage 2 should be configurable
+rather than assumed. Stage 2's masks also depend on DEVA, which has not been
+run on any candidate dataset yet.
 
 ## How to run
 
@@ -73,17 +72,20 @@ pip install -r requirements.txt
 
 ### Stage 1
 
-The pipeline that chains GOT-10k filtering, ReCamMaster re-rendering, and
-CoTracker track extraction into the `.pt` training-pair format
-`stage1_train.py` expects is not built yet. Each piece can be run on its own:
+The pipeline that chains source-dataset filtering, ReCamMaster re-rendering,
+and CoTracker track extraction into the `.pt` training-pair format
+`stage1_train.py` expects is not built yet. `stage1_source_filter.py`
+currently assumes GOT-10k's specific file layout, since the actual source
+dataset is not decided; this will need to become configurable. Each piece can
+be run on its own:
 
 ```python
-# 1. Filter a downloaded GOT-10k directory to the near-static-camera subset,
+# 1. Filter a downloaded source dataset to the near-static-camera subset,
 #    then write ReCamMaster's expected metadata.csv. Encoding each qualifying
 #    sequence's frames to an mp4 is a separate, ordinary ffmpeg step, not
 #    included here.
 from stage1_source_filter import filter_got10k, write_metadata_csv
-qualifying = filter_got10k(got10k_root=pathlib.Path("/path/to/got10k_root"))
+qualifying = filter_got10k(got10k_root=pathlib.Path("/path/to/dataset_root"))
 write_metadata_csv(qualifying, video_dir=pathlib.Path("data/stage1_videos"),
                     out_csv=pathlib.Path("data/stage1_source/metadata.csv"))
 
@@ -114,10 +116,10 @@ since the paper only gives Stage 1's architecture, not its training recipe.
 
 ### Stage 2
 
-`stage2_data_pipeline.py` builds training pairs from OpenVid-1M clips and
-DEVA masks, but does not call DEVA itself; DEVA needs to be run separately
-(`demo_automatic.py` in its own repo) to produce the mask sequences this
-module consumes. There is no training-loop entrypoint yet, only
+`stage2_data_pipeline.py` builds training pairs from a video corpus (not yet
+decided) plus DEVA masks, but does not call DEVA itself; DEVA needs to be run
+separately (`demo_automatic.py` in its own repo) to produce the mask
+sequences this module consumes. There is no training-loop entrypoint yet, only
 `stage2_lora.py::train_step`, a single flow-matching step meant to be called
 from a training loop once the data pipeline is wired up:
 
