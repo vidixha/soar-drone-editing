@@ -9,8 +9,8 @@ Requires, on the machine actually running this (not this dev machine):
   git clone https://github.com/KwaiVGI/ReCamMaster.git
   cd ReCamMaster && pip install -e .
   python download_wan2.1.py
-  (download KwaiVGI/ReCamMaster-Wan2.1/step20000.ckpt from HF into
-   models/ReCamMaster/checkpoints/)
+  (download KlingTeam/ReCamMaster-Wan2.1/step20000.ckpt from HF into
+   models/ReCamMaster/checkpoints/ -- confirmed public, not gated)
 
 ReCamMaster's inference script expects a dataset dir with videos/ and a
 metadata.csv (file_name, text), 81-frame clips at 480x832. cam_type is a string
