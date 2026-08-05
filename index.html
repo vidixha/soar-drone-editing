@@ -62,31 +62,31 @@ forward move should look like, and again there is nothing invented.</p>
   <div class="col">
     <h3>Video 1</h3>
     <video src="original.mp4" controls loop autoplay muted></video>
-    <p class="status">Original drone footage used for every test.</p>
+    <p class="status">Original drone footage. Every render below starts from this clip.</p>
     <div><a class="dl" href="original.mp4" download="video1.mp4">Download</a></div>
   </div>
   <div class="col">
     <h3>Video 2</h3>
     <video id="rendered" src="rendered.mp4" controls loop autoplay muted></video>
-    <p class="status">ReCamMaster render, camera rotated about 20 degrees.</p>
+    <p class="status">ReCamMaster render, camera rotated about 20 degrees. It hallucinated a building in the top right corner that does not exist in the real scene.</p>
     <div><a class="dl" href="rendered.mp4" download="video2.mp4">Download</a></div>
   </div>
   <div class="col">
     <h3>Video 3</h3>
     <video id="rendered3" src="rendered_cam3.mp4" controls loop autoplay muted></video>
-    <p class="status">ReCamMaster render, camera rotated about 10 degrees.</p>
+    <p class="status">ReCamMaster render, camera rotated about 10 degrees, half of Video 2's rotation. It hallucinated a glowing structure in the sky and changed the sky itself to overcast.</p>
     <div><a class="dl" href="rendered_cam3.mp4" download="video3.mp4">Download</a></div>
   </div>
   <div class="col">
     <h3>Video 6</h3>
     <video id="tracks" src="cotracker_viz.mp4" controls loop autoplay muted></video>
-    <p class="status">Point tracks generated on the ReCamMaster render.</p>
+    <p class="status">Point tracks from CoTracker, following how points on the object and background move across Video 2, frame by frame.</p>
     <div><a class="dl" href="cotracker_viz.mp4" download="video6.mp4">Download</a></div>
   </div>
   <div class="col">
     <h3>Video 7</h3>
     <video id="deva2" src="deva_viz_car.mp4" controls loop autoplay muted></video>
-    <p class="status">Tracked object's box relocated on the ReCamMaster render.</p>
+    <p class="status">The tracked object's box relocated on Video 2 using the point tracks from Video 6, showing where the object would be placed for training.</p>
     <div><a class="dl" href="deva_viz_car.mp4" download="video7.mp4">Download</a></div>
   </div>
 </div>
@@ -98,19 +98,19 @@ forward move should look like, and again there is nothing invented.</p>
   <div class="col">
     <h3>Video 4</h3>
     <video id="trajcrafter" src="trajcrafter_gen.mp4" controls loop autoplay muted></video>
-    <p class="status">TrajectoryCrafter render, camera rotated 10 degrees.</p>
+    <p class="status">TrajectoryCrafter render, camera rotated 10 degrees, the same rotation as Video 3. Nothing invented, the sky and surroundings match the real scene.</p>
     <div><a class="dl" href="trajcrafter_gen.mp4" download="video4.mp4">Download</a></div>
   </div>
   <div class="col">
     <h3>Video 5</h3>
     <video id="trajcrafter2" src="trajcrafter_gen2.mp4" controls loop autoplay muted></video>
-    <p class="status">TrajectoryCrafter render, combined tilt and pan.</p>
+    <p class="status">TrajectoryCrafter render, a larger combined tilt and pan than Video 4, to check the result still holds on a bigger camera change. It does.</p>
     <div><a class="dl" href="trajcrafter_gen2.mp4" download="video5.mp4">Download</a></div>
   </div>
   <div class="col">
     <h3>Video 8</h3>
     <video id="trajcrafter3" src="trajcrafter_gen3.mp4" controls loop autoplay muted></video>
-    <p class="status">TrajectoryCrafter render, camera moves forward.</p>
+    <p class="status">TrajectoryCrafter render, camera moves forward instead of rotating. The sign board grows and shifts while distant trees barely move, which is what a real forward move should look like.</p>
     <div><a class="dl" href="trajcrafter_gen3.mp4" download="video8.mp4">Download</a></div>
   </div>
 </div>
