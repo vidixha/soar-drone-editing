@@ -61,8 +61,9 @@ The paper's training data is private for both stages (7,500 static-camera
 videos for Stage 1, ~1.1M internal videos for Stage 2), so both stages need a
 public substitute. Neither substitute dataset is finalized yet; the source
 corpus for Stage 1 and the training corpus for Stage 2 should be configurable
-rather than assumed. Stage 2's masks also depend on DEVA, which has not been
-run on any candidate dataset yet.
+rather than assumed. DEVA has now been dry-run on a real MAVREC scene (see
+"MAVREC drone-view POC" below), but not yet on ReCamMaster's rendered output,
+which is what Stage 1 actually needs it for.
 
 ## How to run
 
@@ -177,11 +178,55 @@ static-camera threshold), encoded to an mp4 with `write_clip_mp4`, assembled
 into `.pt` pairs with stub ReCamMaster/CoTracker output, and fed into
 `stage1_dit.py`'s real flow-matching loss without shape errors. Target-box
 values in this POC are still a placeholder (copied from the reference boxes)
-since re-localizing the object in ReCamMaster's rendered output needs DEVA,
-which has not been run yet (see "Data sources" above). Swapping in the real
-GPU calls is passing `recam_wrapper.render_all_trajectories` and
+since re-localizing the object in ReCamMaster's rendered output needs DEVA
+(see "DEVA dry run" below). Swapping in the real GPU calls is passing
+`recam_wrapper.render_all_trajectories` and
 `cotracker_wrapper.extract_point_track_grid` as `render_fn`/`track_fn`
 instead of the stubs; no other code change is needed.
+
+`stage1_train.py` has also been run for real (not just a shape check) on the
+10 `.pt` pairs assembled from scene 1: a 20-step training loop on CPU
+completed without error, the checkpoint was reloaded into a fresh model, and
+`sample()` (the Euler-integration inference path) produced a correctly-shaped
+output. The loss curve does drop over these steps, but that is not evidence of
+real learning: `target_boxes` is currently a placeholder copy of `ref_boxes`
+(see above), and `point_tracks`/`first_frame_feat` come from the stub
+functions, not real CoTracker tracks or a real vision encoder. A real quality
+signal needs the GPU calls in place first.
+
+### DEVA dry run
+
+`trace_replication/external/deva_dry_run.py` is a CPU dry run of DEVA
+(segment once, track many frames) against scene 1's real original footage --
+not the real Stage 1 step 4 (re-localizing the object in ReCamMaster's
+rendered output), since ReCamMaster hasn't been run yet. It box-prompts
+MobileSAM on frame 0 using the same interpolated reference box from
+`mavrec_source_filter.py`, then propagates that identity across all 81 frames
+with DEVA's own network (no SAM after frame 0), and compares DEVA's derived
+per-frame box against the interpolated `B_ref` box as a sanity check.
+
+DEVA and its dependencies (MobileSAM, `segment_anything`) are cloned and
+installed separately into `trace_replication/external/` (gitignored; not
+vendored into this repo), following the same "install separately, driven by a
+thin wrapper" pattern as ReCamMaster and CoTracker. Only `DEVA-propagation.pth`
+and `mobile_sam.pt` are needed for this box-prompted path; the larger
+SAM-ViT-H/GroundingDINO/HQ-SAM checkpoints `scripts/download_models.sh`
+fetches are for DEVA's automatic and text-prompted modes, not used here.
+
+Full run, all 81 frames, on CPU: 0 lost-track frames, ~6.2s/frame (~8 minutes
+total), mean IoU 0.647 against the interpolated `B_ref` box. That IoU is
+measured against our own linear interpolation between sparse keyframes (up to
+~19 frames apart), not true ground truth, so some divergence is expected from
+interpolation error alone; the more informative number is that DEVA never
+lost the object across the full clip.
+
+The first two attempts at this were OOM-killed on a 7.7GB-RAM host, growing
+by roughly 200MB per frame. The cause was a bug in this dry-run script, not a
+DEVA or CPU limitation: the real DEVA demo scripts call
+`torch.autograd.set_grad_enabled(False)` globally before running, which this
+script initially omitted, so every forward pass built an autograd graph that
+was never freed. Adding that call fixed it; memory stayed flat at ~4GB for the
+full 81-frame run.
 
 ### Stage 2
 

@@ -2,3 +2,5 @@
 __pycache__/
 *.pyc
 data/
+external/Tracking-Anything-with-DEVA/
+external/*.log
