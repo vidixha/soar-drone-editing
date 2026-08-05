@@ -1,0 +1,127 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Stage 1 re-rendering: ReCamMaster vs. TrajectoryCrafter</title>
+<style>
+  body { background:#111; color:#eee; font-family:sans-serif; text-align:center; }
+  .row { display:flex; justify-content:center; gap:24px; flex-wrap:wrap; margin-top:24px; }
+  .col { max-width:45%; }
+  video { width:100%; max-width:640px; background:#000; }
+  h3 { margin-bottom:4px; }
+  .status { color:#f88; }
+  .summary { max-width:900px; margin:0 auto; text-align:left; background:#1a1a1a; padding:20px 28px; border-radius:8px; line-height:1.5; }
+  .summary h2 { margin-top:0; }
+  .part-title { max-width:900px; margin:48px auto 0; text-align:left; border-top:1px solid #333; padding-top:24px; }
+  .part-title h2 { margin-bottom:4px; }
+  .part-title p { color:#aaa; margin-top:0; }
+  .dl { display:inline-block; margin-top:6px; font-size:0.9em; color:#7ab8ff; text-decoration:none; border:1px solid #7ab8ff; padding:3px 10px; border-radius:4px; }
+  .dl:hover { background:#7ab8ff; color:#111; }
+</style>
+</head>
+<body>
+<h1>MAVREC scene 1: Stage 1 re-rendering — ReCamMaster vs. TrajectoryCrafter</h1>
+
+<div class="summary">
+<h2>What we did</h2>
+<p>Stage 1 of the TRACE replication needs to re-render a real drone clip from a new camera
+angle, so a small model can later learn how an object's tracked box should move when the
+camera changes. <b>Part 1</b> below is our first attempt, <b>ReCamMaster</b> (a pretrained
+video diffusion model). <b>Part 2</b> is what we switched to after ReCamMaster's problem
+showed up: <b>TrajectoryCrafter</b>.</p>
+<p><b>Problem (Part 1):</b> ReCamMaster hallucinated fictional content in the region newly
+revealed by the camera rotation — a fake building appeared for a ~20° rotation, and a
+different, arguably worse glowing fake structure (plus an invented overcast sky) appeared even
+after halving the rotation to ~10°. Halving the angle did not fix it, pointing to a domain
+gap: these models are trained on ground-level video, not top-down aerial footage.</p>
+<p><b>Fix (Part 2):</b> TrajectoryCrafter is a hybrid approach that estimates real depth (via
+DepthCrafter) and reprojects the actual scene geometry via a point-cloud warp, using diffusion
+only to fill in the small genuinely-unknown occlusion holes — not to hallucinate the whole
+frame. Result: no fabricated structures across three different trajectories we tested
+(rotation, a combined tilt+pan, and a forward dolly with genuine 3D parallax), and each render
+was faster and cheaper than ReCamMaster (~5 min / ~$0.30 vs ~33 min / ~$0.44 per trajectory).</p>
+<p>Getting TrajectoryCrafter running took real debugging, all logged in
+<code>modal/DEBUG_LOG.md</code>: an unfiltered checkpoint download that pulled ~98GB instead
+of ~30GB, a <code>torchvision</code> version silently clobbered by a transitive dependency
+(twice — same pattern as an earlier <code>huggingface_hub</code> incident on the ReCamMaster
+pipeline), a missing <code>torch</code> API that a <code>sitecustomize.py</code> shim
+couldn't fix because Modal's own runtime shadows it, an <code>xformers</code> wheel built for
+a completely different torch/CUDA version, and a hard 49-frame limit on the CogVideoX-Fun-V1.1-5b
+backbone (couldn't extend to our source clip's full 81 frames). Each was caught and fixed on
+CPU-only debug functions before spending on the A100, keeping wasted GPU spend to a few
+minutes total across all the failed attempts.</p>
+</div>
+
+<div class="part-title">
+<h2>Part 1 — ReCamMaster</h2>
+<p>Original clip, then two ReCamMaster attempts at different rotation magnitudes, then
+downstream CoTracker + DEVA run on the ReCamMaster output to complete the full Stage 1
+pipeline despite the render quality problem.</p>
+</div>
+<div class="row">
+  <div class="col">
+    <h3>Video 1 — Original (drone footage, 81 frames)</h3>
+    <video src="original.mp4" controls loop autoplay muted></video>
+    <div><a class="dl" href="original.mp4" download="video1.mp4">Download</a></div>
+  </div>
+  <div class="col">
+    <h3>Video 2 — ReCamMaster diffusion, cam_type 1, ~20°</h3>
+    <video id="rendered" src="rendered.mp4" controls loop autoplay muted
+      onerror="document.getElementById('status').textContent='Not ready yet — refresh once the render finishes.'"></video>
+    <p id="status" class="status">Hallucinates a fictional building (top-right) that doesn't exist in reality — visible by frame 40, fully formed by frame 80.</p>
+    <div><a class="dl" href="rendered.mp4" download="video2.mp4">Download</a></div>
+  </div>
+  <div class="col">
+    <h3>Video 3 — ReCamMaster, cam_type 3, ~10° (half the rotation)</h3>
+    <video id="rendered3" src="rendered_cam3.mp4" controls loop autoplay muted
+      onerror="document.getElementById('status6').textContent='Not ready yet.'"></video>
+    <p id="status6" class="status">Milder rotation did NOT fix it — a different, arguably worse artifact appears instead: a large glowing fake structure in the sky, plus the sky itself turns overcast. Hallucination doesn't scale down with rotation magnitude.</p>
+    <div><a class="dl" href="rendered_cam3.mp4" download="video3.mp4">Download</a></div>
+  </div>
+  <div class="col">
+    <h3>Video 6 — CoTracker point tracks (on ReCamMaster's rendered clip)</h3>
+    <video id="tracks" src="cotracker_viz.mp4" controls loop autoplay muted
+      onerror="document.getElementById('status2').textContent='Not ready yet — refresh once tracking finishes.'"></video>
+    <p id="status2" class="status"></p>
+    <div><a class="dl" href="cotracker_viz.mp4" download="video6.mp4">Download</a></div>
+  </div>
+  <div class="col">
+    <h3>Video 7 — DEVA re-localized box (car seed, SAM confidence 0.902)</h3>
+    <video id="deva2" src="deva_viz_car.mp4" controls loop autoplay muted
+      onerror="document.getElementById('status4').textContent='Not ready yet — refresh once DEVA finishes.'"></video>
+    <p id="status4" class="status" style="color:#8f8;">Tracks tightly through ~frame 40; box correctly shrinks/vanishes near frame 80 as the car genuinely exits frame-left, rather than drifting onto the wrong region.</p>
+    <div><a class="dl" href="deva_viz_car.mp4" download="video7.mp4">Download</a></div>
+  </div>
+</div>
+
+<div class="part-title">
+<h2>Part 2 — TrajectoryCrafter</h2>
+<p>Three trajectories tested: a mild rotation, a more dynamic combined tilt+pan, and a
+forward dolly (the hardest case — real 3D parallax, not just rotation). All three came out
+clean, with no fabricated structures.</p>
+</div>
+<div class="row">
+  <div class="col">
+    <h3>Video 4 — TrajectoryCrafter, theta=10° (depth warp + diffusion inpainting)</h3>
+    <video id="trajcrafter" src="trajcrafter_gen.mp4" controls loop autoplay muted
+      onerror="document.getElementById('status7').textContent='Not ready yet.'"></video>
+    <p id="status7" class="status" style="color:#8f8;">No hallucinated buildings or fabricated structures across all 49 frames — scene stays geometrically/semantically coherent. Only minor artifact: the sign's text looks slightly different. 5.2 min render, ~$0.30-0.35 on A100 (cheaper than ReCamMaster despite the pricier GPU, since diffusion only fills small occlusion holes, not the whole frame).</p>
+    <div><a class="dl" href="trajcrafter_gen.mp4" download="video4.mp4">Download</a></div>
+  </div>
+  <div class="col">
+    <h3>Video 5 — TrajectoryCrafter, new angle (theta=15°, phi=20°, combined tilt+pan)</h3>
+    <video id="trajcrafter2" src="trajcrafter_gen2.mp4" controls loop autoplay muted
+      onerror="document.getElementById('status8').textContent='Not ready yet.'"></video>
+    <p id="status8" class="status" style="color:#8f8;">Also clean across all 49 frames — no hallucinated structures with this more dynamic angle either. Note: 81 frames (our source clip's full length) was attempted but isn't supported — CogVideoX-Fun-V1.1-5b has a hard 49-frame limit (static positional embeddings), so this is capped at 49 like Video 4. 4.8 min render, ~$0.30.</p>
+    <div><a class="dl" href="trajcrafter_gen2.mp4" download="video5.mp4">Download</a></div>
+  </div>
+  <div class="col">
+    <h3>Video 8 — TrajectoryCrafter, forward dolly (r=0.3, no rotation)</h3>
+    <video id="trajcrafter3" src="trajcrafter_gen3.mp4" controls loop autoplay muted
+      onerror="document.getElementById('status9').textContent='Not ready yet.'"></video>
+    <p id="status9" class="status" style="color:#8f8;">Tests real forward translation, not just rotation — the harder case (TrajectoryCrafter's own follow-up critique paper, DepthDirector, specifically flags "flying pixels" and geometric distortion under translation as its main weakness). Confirmed genuine 3D parallax, not a 2D zoom: the sign board (tall, near) grows and shifts noticeably while the distant treeline barely changes — a uniform zoom would scale both equally. No distortion or flying pixels across all 49 frames. 5.1 min render, ~$0.30.</p>
+    <div><a class="dl" href="trajcrafter_gen3.mp4" download="video8.mp4">Download</a></div>
+  </div>
+</div>
+</body>
+</html>
