@@ -23,6 +23,11 @@ calls are lined up with the real Wan2.1 architecture.
   GOT-10k's file layout specifically; the actual source dataset is not
   finalized, and this should become configurable rather than assuming one
   dataset's format.
+- `trace_replication/src/mavrec_source_filter.py`,
+  `trace_replication/src/stage1_build_pairs.py`: a drone-footage POC for
+  Stage 1's source corpus, using MAVREC's hovering drone view (semi-static,
+  25-45m altitude) instead of GOT-10k. Not a finalized dataset choice, see
+  "MAVREC drone-view POC" below.
 
 **Stage 2 (Motion-Conditioned Video Resynthesis).** See
 `trace_replication/notes/stage2_spec.md`.
@@ -113,6 +118,51 @@ python3 stage1_train.py --data_dir data/stage1_pairs --out_dir checkpoints/stage
 `--num_steps`, `--batch_size`, `--lr`, and `--device` are also available; see
 `stage1_train.py --help`. These defaults are ours, not paper-reported values,
 since the paper only gives Stage 1's architecture, not its training recipe.
+
+### MAVREC drone-view POC
+
+`mavrec_source_filter.py` is a Stage 1 source-corpus POC using MAVREC
+(arxiv 2312.04548) instead of GOT-10k. MAVREC's drone camera hovers
+(semi-static, 25-45m altitude) rather than flying continuously, which is why
+it can satisfy Stage 1's static-camera requirement while still being real
+drone footage, unlike VisDrone/UAVDT's continuous-flight clips. This is a POC,
+not a finalized dataset choice.
+
+MAVREC is gated on Hugging Face (`huggingface.co/datasets/rjccv/MAVREC`):
+requesting access (name, email, affiliation, country) and acknowledging its
+CC-BY license is required before `ACCESS_INSTRUCTIONS.md` reveals the actual
+download link. We have not been through that gate yet, so
+`mavrec_source_filter.py`'s directory/annotation layout is a documented
+best-guess reconstruction from the paper (see its module docstring), not a
+confirmed layout, and will need adjusting once real files are available.
+
+MAVREC is a multi-object detection dataset, not a single-object tracking
+dataset like GOT-10k, so `mavrec_source_filter.py` also does its own
+frame-to-frame object linking (`link_single_object`) to produce one tracked
+box per frame, since Stage 1 needs a single per-frame box sequence.
+
+`stage1_build_pairs.py` is the data-assembly glue script chaining
+`mavrec_source_filter.filter_mavrec` -> ReCamMaster rendering -> CoTracker
+tracking into `stage1_train.py`'s `.pt` schema, that `stage1_source_filter.py`
+and `stage1_train.py` both flag as not yet built. `render_fn`/`track_fn`/
+`feature_fn` are injectable so the assembly and `.pt` schema can be verified
+on CPU with stub functions standing in for ReCamMaster and CoTracker (both
+GPU-only), before spending GPU time on the real ones:
+
+```bash
+python3 stage1_build_pairs.py
+```
+
+This CPU smoke test builds pairs from synthetic data with stub renderer/
+tracker functions, then runs `stage1_dit.py`'s real flow-matching loss on the
+assembled pairs, to confirm the `.pt` schema and shapes are correct end to end
+before running on real MAVREC data or a GPU. Target-box values in this POC are
+a placeholder (copied from the reference boxes) since re-localizing the object
+in ReCamMaster's rendered output needs DEVA, which has not been run yet (see
+"Data sources" above). Swapping in the real GPU calls is passing
+`recam_wrapper.render_all_trajectories` and
+`cotracker_wrapper.extract_point_track_grid` as `render_fn`/`track_fn`
+instead of the stubs; no other code change is needed.
 
 ### Stage 2
 
