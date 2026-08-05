@@ -128,18 +128,33 @@ it can satisfy Stage 1's static-camera requirement while still being real
 drone footage, unlike VisDrone/UAVDT's continuous-flight clips. This is a POC,
 not a finalized dataset choice.
 
-MAVREC is gated on Hugging Face (`huggingface.co/datasets/rjccv/MAVREC`):
+MAVREC is gated on Hugging Face (`huggingface.co/datasets/rjccv/MAVREC`) --
 requesting access (name, email, affiliation, country) and acknowledging its
 CC-BY license is required before `ACCESS_INSTRUCTIONS.md` reveals the actual
-download link. We have not been through that gate yet, so
-`mavrec_source_filter.py`'s directory/annotation layout is a documented
-best-guess reconstruction from the paper (see its module docstring), not a
-confirmed layout, and will need adjusting once real files are available.
+download link, a Google Drive folder -- and we have been through that gate.
+Confirmed real layout, from an actual downloaded scene:
 
-MAVREC is a multi-object detection dataset, not a single-object tracking
-dataset like GOT-10k, so `mavrec_source_filter.py` also does its own
-frame-to-frame object linking (`link_single_object`) to produce one tracked
-box per frame, since Stage 1 needs a single per-frame box sequence.
+```
+mavrec_root/
+  Annotations/
+    aerial_test_aligned_ids.json   # COCO: images[] (file_name, frameID, scene,
+                                    # width, height), annotations[] (bbox, category_id)
+    ground_test_aligned_ids.json
+  unlabelled/
+    video_scene_<N>.zip            # ~6.8GB each; contains aerial_scene_<N>.mp4
+                                    # (drone view) and ground_scene_<M>.mp4
+```
+
+Only the first ~900 frames (30s) of each scene are annotated, and only
+sparsely within that window (irregular frame-id gaps, e.g. scene 1 has 146
+annotated frames spread across frame 2-897). `mavrec_source_filter.py`
+interpolates those sparse boxes into a dense per-frame sequence, which
+matches the paper's own description of B_ref as "sparse user-placed key boxes"
+interpolated to a dense sequence, rather than assuming dense per-frame
+annotations existed. MAVREC is also a multi-object detection dataset (10
+categories, no persistent track id), so a single object per scene is picked
+via a greedy nearest-center linker (`link_single_object`) across the sparse
+annotated frames, since Stage 1 needs one tracked object's box per frame.
 
 `stage1_build_pairs.py` is the data-assembly glue script chaining
 `mavrec_source_filter.filter_mavrec` -> ReCamMaster rendering -> CoTracker
@@ -153,14 +168,18 @@ GPU-only), before spending GPU time on the real ones:
 python3 stage1_build_pairs.py
 ```
 
-This CPU smoke test builds pairs from synthetic data with stub renderer/
-tracker functions, then runs `stage1_dit.py`'s real flow-matching loss on the
-assembled pairs, to confirm the `.pt` schema and shapes are correct end to end
-before running on real MAVREC data or a GPU. Target-box values in this POC are
-a placeholder (copied from the reference boxes) since re-localizing the object
-in ReCamMaster's rendered output needs DEVA, which has not been run yet (see
-"Data sources" above). Swapping in the real GPU calls is passing
-`recam_wrapper.render_all_trajectories` and
+This has been run twice: once with synthetic data and stub functions (the
+`__main__` block, CPU-only), and once against a real downloaded MAVREC scene
+(scene 1) end to end -- real sparse COCO boxes interpolated, real 81-frame
+window extracted from the real video and confirmed near-static
+(translation_norm_median 0.0001, rotation 0.002 degrees, both well under the
+static-camera threshold), encoded to an mp4 with `write_clip_mp4`, assembled
+into `.pt` pairs with stub ReCamMaster/CoTracker output, and fed into
+`stage1_dit.py`'s real flow-matching loss without shape errors. Target-box
+values in this POC are still a placeholder (copied from the reference boxes)
+since re-localizing the object in ReCamMaster's rendered output needs DEVA,
+which has not been run yet (see "Data sources" above). Swapping in the real
+GPU calls is passing `recam_wrapper.render_all_trajectories` and
 `cotracker_wrapper.extract_point_track_grid` as `render_fn`/`track_fn`
 instead of the stubs; no other code change is needed.
 
