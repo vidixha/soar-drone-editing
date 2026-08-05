@@ -17,8 +17,8 @@ dataset's own readme.md / videos_to_frames.py, not a guess):
       aerial_test_aligned_ids.json   # standard COCO: images[], annotations[], categories[]
       ground_test_aligned_ids.json
     unlabelled/
-      video_scene_<N>.zip            # full-length, full-resolution raw video per scene,
-                                      # ~6.8GB each, both drone and ground cameras
+      video_scene_<N>.zip            # ~6.8GB each; contains aerial_scene_<N>.mp4
+                                      # (drone view) and ground_scene_<M>.mp4
 
 Only the drone view is used here. The drone is semi-static (hovering ~25-45m,
 per the paper), which is why it's a plausible Stage 1 source unlike continuous-
@@ -40,11 +40,6 @@ nearest-center linker across the sparse annotated frames, same idea as
 GOT-10k's single tracked object but adapted for irregular frame gaps. This
 linking approach is ours, not paper-stated or dataset-provided.
 
-The exact video filename inside each unzipped video_scene_<N>.zip (drone vs.
-ground, naming convention) has not been confirmed yet -- the zips are large
-(~6.8GB each) and are still being fetched as of this writing. `find_drone_video`
-below documents the current best guess and will need adjusting once a zip is
-actually unzipped and inspected.
 """
 import json
 import pathlib
@@ -160,11 +155,10 @@ def boxes_to_normalized(boxes_xywh_px: np.ndarray, img_h: int, img_w: int) -> np
 
 def find_drone_video(video_dir: pathlib.Path, scene_id: int) -> pathlib.Path | None:
     """Locates the drone-view video for a scene after video_scene_<N>.zip has been
-    unzipped into video_dir. Naming convention not yet confirmed against a real
-    unzipped file (see module docstring); this glob is a best guess based on the
-    'droneView' token used in the labelled-frame filenames."""
-    matches = list(video_dir.glob(f"*scene_{scene_id}_*droneView*")) or \
-        list(video_dir.glob(f"*scene_{scene_id}_*drone*"))
+    unzipped into video_dir. Confirmed by inspecting a real unzipped archive:
+    each video_scene_<N>.zip contains 'aerial_scene_<N>.mp4' (drone view) and a
+    'ground_scene_<M>.mp4' (ground view, M not necessarily equal to N)."""
+    matches = list(video_dir.glob(f"aerial_scene_{scene_id}.mp4"))
     return matches[0] if matches else None
 
 
