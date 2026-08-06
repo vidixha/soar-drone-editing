@@ -239,7 +239,7 @@
 <tr class="entry-row">
   <td class="desc">
     <h3>Video 19</h3>
-    <p>Every edit so far repositioned an object that was already in the scene. This test adds a person who was never in this shot, to check whether the same classical approach extends to insertion and not just repositioning. A real pedestrian was cropped from the original 4K footage, where two people are genuinely visible walking on a nearby path. Real frames of them walking were used so their legs actually move, instead of pasting one static photo repeatedly. The person is marked with a red circle here because they are otherwise easy to miss. At this scale the pasted person did not read as a recognizable human shape.</p>
+    <p>Every edit so far repositioned an object that was already in the scene. This test adds a person who was never in this shot, to check whether the same classical approach extends to insertion and not just repositioning. A real pedestrian was cropped from the original 4K footage, where two people are visible walking on a nearby path. Real frames of them walking were used so their legs actually move, instead of pasting one static photo repeatedly. The person is marked with a red circle here because they are otherwise easy to miss. At this scale the pasted person did not read as a recognizable human shape.</p>
   </td>
   <td class="vid">
     <video src="person_insert_marked.mp4" controls loop autoplay muted></video>
@@ -350,7 +350,7 @@
 <tr class="entry-row">
   <td class="desc">
     <h3>Video 28</h3>
-    <p>This result fixes the background disturbance seen in Video 27 by replacing the blending method with a proper car shaped mask built from brightness segmentation, so only the car's own pixels are touched. The car is also recolored red here. Its real shading and highlights are kept, and only the color itself changes, so this reads clearly as a deliberate edit of the same real car rather than a genuinely different vehicle.</p>
+    <p>This result fixes the background disturbance seen in Video 27 by replacing the blending method with a proper car shaped mask built from brightness segmentation, so only the car's own pixels are touched. The car is also recolored red here. Its real shading and highlights are kept, and only the color itself changes, so this reads clearly as a deliberate edit of the same real car rather than a different vehicle.</p>
   </td>
   <td class="vid">
     <video src="trajcrafter_object_red.mp4" controls loop autoplay muted></video>
@@ -358,12 +358,12 @@
   </td>
 </tr>
 
-<tr class="part-row"><td colspan="2">Part 12, a genuinely different car</td></tr>
+<tr class="part-row"><td colspan="2">Part 12, a different car</td></tr>
 
 <tr class="entry-row">
   <td class="desc">
     <h3>Video 29</h3>
-    <p>Video 28 is a color change on the same real car, not a different vehicle. This test sources a second, genuinely different car from a separate aerial drone clip filmed from a similarly high, overhead angle. A brightness based tracking and masking approach was tried first and failed, since the surrounding shadow and tree cover in that clip is nearly as dark as the car itself. The fix reused CoTracker to track the car across all 49 frames of that source clip, rejecting any point whose motion did not match the rest of the tracked group. <a href="https://github.com/facebookresearch/segment-anything">SAM</a> then segmented the car in each frame using both a box prompt and a point prompt together, which fixed a case where a box only prompt had segmented a patch of road instead of the car. A further problem was found by watching the actual result at normal viewing scale rather than a zoomed in crop, where the car looked like a flat rectangle. The real cause was that this car's source patch is taller than it is wide, since it was filmed facing the camera rather than from the side, but it was being resized using width and height targets fit from the first car's own wider shape. Scaling both dimensions independently to the wrong targets squashed a tall object into a short, wide one. The fix scales the patch by one factor in both directions instead, which keeps its own real proportions, and adds a local contrast pass so its highlight detail survives being shrunk to a small size.</p>
+    <p>Video 28 is a color change on the same real car, not a different vehicle. This test sources a second, different car from a separate aerial drone clip filmed from a similarly high, overhead angle. A brightness based tracking and masking approach was tried first and failed, since the surrounding shadow and tree cover in that clip is nearly as dark as the car itself. The fix reused CoTracker to track the car across all 49 frames of that source clip, rejecting any point whose motion did not match the rest of the tracked group. <a href="https://github.com/facebookresearch/segment-anything">SAM</a> then segmented the car in each frame using both a box prompt and a point prompt together, which fixed a case where a box only prompt had segmented a patch of road instead of the car. A further problem was found by watching the actual result at normal viewing scale rather than a zoomed in crop, where the car looked like a flat rectangle. The real cause was that this car's source patch is taller than it is wide, since it was filmed facing the camera rather than from the side, but it was being resized using width and height targets fit from the first car's own wider shape. Scaling both dimensions independently to the wrong targets squashed a tall object into a short, wide one. The fix scales the patch by one factor in both directions instead, which keeps its own real proportions, and adds a local contrast pass so its highlight detail survives being shrunk to a small size.</p>
   </td>
   <td class="vid">
     <video src="vecteezy_car_composited_v2.mp4" controls loop autoplay muted></video>
