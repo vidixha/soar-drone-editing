@@ -52,9 +52,14 @@ def parse(text):
     return ops
 
 def parse_llm(text):
-    """Drop-in LLM parser for free-form language (Anthropic API). Not required for
-    the demo; the rule-based parse() covers single + compound instructions."""
-    raise NotImplementedError("wire an LLM here for open-vocabulary instructions")
+    """Small-LLM parser (Qwen2.5-0.5B-Instruct, CPU, ~1.6GB RAM) -- see
+    llm_parser.py. Generalizes past parse()'s fixed keyword list (handles
+    paraphrases, e.g. "get the vehicles out of the frame" with zero keyword
+    overlap with parse()'s regex vocabulary) at the cost of ~15-25s of local
+    CPU inference per call. Imported lazily so choosing the default regex
+    parser never pulls in torch/transformers."""
+    from llm_parser import parse_llm as _parse_llm
+    return _parse_llm(text)
 
 def schedule(ops):
     """Canonical order: content/geometry edits before appearance edits."""
@@ -178,10 +183,12 @@ def execute(clip, ops, depth_path, out_path, fps=30, trajectory_gpu=False, use_t
     return trace
 
 def run(instruction, clip, depth, out, trajectory_gpu=False, use_trace_anything=False,
-        reuse_trajectory_cache=False, backend_name="modal"):
-    ops = parse(instruction); plan = schedule(ops)
+        reuse_trajectory_cache=False, backend_name="modal", parser="regex"):
+    ops = (parse_llm if parser == "llm" else parse)(instruction)
+    plan = schedule(ops)
     backend = get_backend(backend_name) if (trajectory_gpu or use_trace_anything) else None
     print(f'\n  INSTRUCTION: "{instruction}"')
+    print(f"  PARSER  : {parser}")
     print(f"  PARSED  : {json.dumps(ops)}")
     print(f"  SCHEDULE: {json.dumps(plan)}   (remove→insert→trajectory)")
     print( "  EXECUTE :")
@@ -203,6 +210,9 @@ if __name__ == "__main__":
     ap.add_argument("--reuse-trajectory-cache", action="store_true",
                      help="skip the GPU trajectory render, reuse the last cached post-trajectory result")
     ap.add_argument("--backend", default="modal", help="GPU backend to use (see gpu_backend.get_backend)")
+    ap.add_argument("--parser", default="regex", choices=["regex", "llm"],
+                     help="regex (default, free, instant, fixed keyword list) or llm "
+                          "(Qwen2.5-0.5B-Instruct, CPU, ~15-25s/call, generalizes past exact keywords)")
     a = ap.parse_args()
     run(a.instruction, a.clip, a.depth, a.out, trajectory_gpu=a.trajectory_gpu, use_trace_anything=a.use_trace_anything,
-        reuse_trajectory_cache=a.reuse_trajectory_cache, backend_name=a.backend)
+        reuse_trajectory_cache=a.reuse_trajectory_cache, backend_name=a.backend, parser=a.parser)

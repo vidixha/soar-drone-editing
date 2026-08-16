@@ -13,11 +13,21 @@ insertion prototype live on a separate branch.
 
 - `hybrid_pipeline/router.py` -- parses NL instructions into an op-list
   (`remove`, `insert`, `trajectory`), schedules them in canonical order, and
-  dispatches each to its module. Rule-based parser; an LLM backend is a
-  documented drop-in (`parse_llm`, not wired in) for open-vocabulary
-  instructions -- it would only ever produce the op-list, never touch pixels.
-  **Never imports a GPU provider directly** -- all GPU work goes through
-  `gpu_backend.GPUBackend`.
+  dispatches each to its module. Two parsers, chosen via `--parser`: regex
+  (default, free, instant, fixed keyword list) or a small local LLM
+  (`--parser llm`). Never imports a GPU provider directly -- all GPU work
+  goes through `gpu_backend.GPUBackend`.
+- `hybrid_pipeline/llm_parser.py` -- the LLM parser: **Qwen2.5-0.5B-Instruct**
+  (494M params), CPU-only, ~1.6GB RAM, ~15-25s/call. Deliberately small --
+  this is structured extraction from one short sentence, not open-ended
+  reasoning, so a frontier model would be real cost for no accuracy gain.
+  Generalizes past the regex parser's fixed keyword list: e.g. "get the
+  vehicles out of the frame please" (zero keyword overlap with the regex
+  vocabulary) correctly parses to `remove(vehicles)`; the regex parser
+  returns `[]` on the same input by construction. Real finding while
+  building this: a *longer, more thorough* system prompt measurably
+  *degraded* this model's structured-output reliability (see the module
+  docstring) -- small models need minimal prompts, unlike frontier ones.
 - `hybrid_pipeline/modules.py` -- **object removal**: classical
   background-reveal. Builds one sharp static plate from real pixels across
   the clip (drift-aligned, not a blurry average) and blends it in wherever
