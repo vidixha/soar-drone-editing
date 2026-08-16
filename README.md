@@ -3,7 +3,7 @@
 A natural-language-driven aerial video editor. An instruction is parsed into
 an ordered list of edit operations, scheduled so content/geometry edits run
 before appearance edits, then dispatched to either a local training-free
-module or a real GPU render on Modal.
+module or a real GPU render via a pluggable backend.
 
 This branch ships three pieces: the **router**, **object removal**, and
 **trajectory (camera viewpoint) editing**. Weather modules and the object
@@ -16,11 +16,19 @@ insertion prototype live on a separate branch.
   dispatches each to its module. Rule-based parser; an LLM backend is a
   documented drop-in (`parse_llm`, not wired in) for open-vocabulary
   instructions -- it would only ever produce the op-list, never touch pixels.
+  **Never imports a GPU provider directly** -- all GPU work goes through
+  `gpu_backend.GPUBackend`.
 - `hybrid_pipeline/modules.py` -- **object removal**: classical
   background-reveal. Builds one sharp static plate from real pixels across
   the clip (drift-aligned, not a blurry average) and blends it in wherever
   the target object was. No model, no training. Assumes a near-static
   (hover) camera -- the case it was built and validated for.
+- `hybrid_pipeline/gpu_backend.py` -- the abstract interface (`GPUBackend`,
+  three methods: `render_trajectory`, `depth_sequence`, `depth_single_frame`)
+  and a small factory (`get_backend(name)`). Swap providers by implementing
+  this interface and registering it -- nothing else changes.
+- `hybrid_pipeline/modal_backend.py` -- the one shipped implementation,
+  backed by [Modal](https://modal.com). Default (`--backend modal`).
 - `hybrid_pipeline/trajcrafter_pipeline.py` -- **trajectory editing**: a
   Modal app wrapping [TrajectoryCrafter](https://github.com/TrajectoryCrafter/TrajectoryCrafter)
   (depth-based reprojection + diffusion gap-fill) for real camera viewpoint
@@ -31,6 +39,13 @@ insertion prototype live on a separate branch.
   on Modal; genuinely per-frame, temporally-consistent depth for a whole
   clip in one feed-forward pass. Optional, better alternative to the
   Depth Anything V2 refresh (`--use-trace-anything`). CC-BY-NC-4.0 weights.
+
+`trajcrafter_pipeline.py`, `depth_extract.py`, and `trace_anything_depth.py`
+are Modal *server-side* app definitions -- what actually runs on the GPU.
+`modal_backend.py` is the *client-side* adapter that calls into them. Only
+`modal_backend.py` needs to change (or be replaced) to run this router
+against a different GPU provider; the three pipeline files above stay as
+one reference implementation of what a backend needs to expose.
 
 ## Why depth gets refreshed after trajectory
 
@@ -101,7 +116,8 @@ Anything instead of the single-frame default. Add `--reuse-trajectory-cache`
 to skip a real re-render and reuse the last cached post-trajectory result
 (`/tmp/soar_router_traj_cache.*`) -- useful when iterating on anything
 downstream of trajectory without re-paying for a ~5-6 minute A100 render
-each time.
+each time. `--backend modal` is the default and only shipped option today;
+see `gpu_backend.py` to add another.
 
 ## Known limitations
 
