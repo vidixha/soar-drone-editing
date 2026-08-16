@@ -1,4 +1,4 @@
-# Hybrid pipeline: NL router + removal + trajectory
+# AERIE (Aerial Editing via Routed Instructions & Execution)
 
 A natural-language-driven aerial video editor. An instruction is parsed into
 an ordered list of edit operations, scheduled so content/geometry edits run
