@@ -39,8 +39,15 @@ def parse(text):
     """NL -> ordered op-list. Rule-based; deterministic; handles compound."""
     t = text.lower(); ops = []
     if re.search(r"\b(remove|delete|erase|get rid of|clear|take out)\b", t):
-        m = re.search(r"(?:remove|delete|erase|clear|take out)\s+(?:the\s+|all\s+)?([a-z]+)", t)
-        ops.append({"module": "remove", "params": {"target": m.group(1) if m else "objects"}})
+        # Multi-word capture (not just one word) so an attribute survives --
+        # "remove the black car" needs "black car" downstream to tell it
+        # apart from any other car in frame, not just "car". Trimmed at the
+        # next clause ("and"/"then") so a compound instruction doesn't pull
+        # in the next op's words too.
+        m = re.search(r"(?:remove|delete|erase|clear|take out)\s+(?:the\s+|all\s+)?([a-z]+(?:\s+[a-z]+)*)", t)
+        target = m.group(1) if m else "objects"
+        target = re.split(r"\b(?:and|then)\b", target)[0].strip()
+        ops.append({"module": "remove", "params": {"target": target}})
     m = re.search(r"\b(?:insert|add|place|put)\s+(?:a\s+|another\s+)?(car|vehicle|truck|person|object)\b", t)
     if m: ops.append({"module": "insert", "params": {"object": m.group(1)}})
     for kw, mv in [("orbit","orbit"),("circle","orbit"),("pan","pan"),("dolly","dolly"),
@@ -132,11 +139,23 @@ TRAJ_CACHE_VIDEO = "/tmp/soar_router_traj_cache.mp4"
 TRAJ_CACHE_DEPTH = "/tmp/soar_router_traj_cache_depth.npz"
 
 def execute(clip, ops, depth_path, out_path, fps=30, trajectory_gpu=False, use_trace_anything=False,
-            reuse_trajectory_cache=False, save_trajectory_cache=True, backend=None):
+            reuse_trajectory_cache=False, save_trajectory_cache=True, backend=None, removal_mode="local"):
     """backend: a gpu_backend.GPUBackend instance (defaults to the Modal
     backend if not given -- see gpu_backend.get_backend()). Only constructed
     lazily, and only if a GPU op actually needs to fire, so a removal-only
     instruction never touches it and never needs a GPU provider configured.
+
+    removal_mode="local" (default): modules.remove_objects(), CPU, free,
+    training-free background reveal. Has a real ceiling -- can't recover
+    background that's never exposed in any sampled frame (confirmed on a
+    precision-tracked clip where even a near-full-clip window left the
+    target fully visible throughout).
+    removal_mode="gpu-inpaint": GPUBackend.remove_objects_inpaint() --
+    same classical algorithm ported to GPU (~15-20x faster) plus a
+    detector-guided video-inpainting fallback for exactly that ceiling
+    case. Costs real GPU time; opt in for footage the local path can't
+    handle. See removal_inpaint_gpu.py's module docstring for the full
+    story (including a real bug in an earlier version of this fallback).
 
     use_trace_anything=False (default): single depth snapshot loaded once,
     refreshed via one more single-frame call after trajectory.
@@ -151,8 +170,9 @@ def execute(clip, ops, depth_path, out_path, fps=30, trajectory_gpu=False, use_t
     a real render every time. save_trajectory_cache: persist a fresh GPU
     result for later reuse (on by default whenever a real render happens)."""
     frames = M.load_clip(clip)
-    needs_gpu = use_trace_anything or (trajectory_gpu and any(o["module"] == "trajectory" for o in ops)
-                                        and not (reuse_trajectory_cache and os.path.exists(TRAJ_CACHE_VIDEO)))
+    needs_gpu = (use_trace_anything or (removal_mode == "gpu-inpaint" and any(o["module"] == "remove" for o in ops))
+                 or (trajectory_gpu and any(o["module"] == "trajectory" for o in ops)
+                     and not (reuse_trajectory_cache and os.path.exists(TRAJ_CACHE_VIDEO))))
     if backend is None and needs_gpu:
         backend = get_backend()
     depth = _depth_seq_gpu(backend, frames, fps) if use_trace_anything else M.load_depth(depth_path, frames[0].shape[:2])
@@ -160,7 +180,15 @@ def execute(clip, ops, depth_path, out_path, fps=30, trajectory_gpu=False, use_t
     for op in ops:
         mod, p = op["module"], op["params"]
         if mod == "remove":
-            frames, _ = M.remove_objects(frames); trace.append(f"remove({p['target']}) ✓")
+            if removal_mode == "gpu-inpaint":
+                import tempfile
+                tmp = tempfile.mktemp(suffix=".mp4"); M.save_video(frames, tmp, fps)
+                out_bytes = backend.remove_objects_inpaint(open(tmp, "rb").read(), target=p['target'])
+                res = tempfile.mktemp(suffix=".mp4"); open(res, "wb").write(out_bytes)
+                frames = M.load_clip(res)
+                trace.append(f"remove({p['target']}) ✓ (GPU, detector-guided inpainting fallback)")
+            else:
+                frames, _ = M.remove_objects(frames, target=p['target']); trace.append(f"remove({p['target']}) ✓")
         elif mod == "trajectory":
             if reuse_trajectory_cache and os.path.exists(TRAJ_CACHE_VIDEO) and os.path.exists(TRAJ_CACHE_DEPTH):
                 frames = M.load_clip(TRAJ_CACHE_VIDEO)
@@ -183,17 +211,20 @@ def execute(clip, ops, depth_path, out_path, fps=30, trajectory_gpu=False, use_t
     return trace
 
 def run(instruction, clip, depth, out, trajectory_gpu=False, use_trace_anything=False,
-        reuse_trajectory_cache=False, backend_name="modal", parser="regex"):
+        reuse_trajectory_cache=False, backend_name="modal", parser="regex", removal_mode="local"):
     ops = (parse_llm if parser == "llm" else parse)(instruction)
     plan = schedule(ops)
-    backend = get_backend(backend_name) if (trajectory_gpu or use_trace_anything) else None
+    needs_backend = trajectory_gpu or use_trace_anything or (removal_mode == "gpu-inpaint"
+                                                              and any(o["module"] == "remove" for o in ops))
+    backend = get_backend(backend_name) if needs_backend else None
     print(f'\n  INSTRUCTION: "{instruction}"')
     print(f"  PARSER  : {parser}")
+    print(f"  REMOVAL : {removal_mode}")
     print(f"  PARSED  : {json.dumps(ops)}")
     print(f"  SCHEDULE: {json.dumps(plan)}   (remove→insert→trajectory)")
     print( "  EXECUTE :")
     for line in execute(clip, plan, depth, out, trajectory_gpu=trajectory_gpu, use_trace_anything=use_trace_anything,
-                        reuse_trajectory_cache=reuse_trajectory_cache, backend=backend):
+                        reuse_trajectory_cache=reuse_trajectory_cache, backend=backend, removal_mode=removal_mode):
         print(f"      - {line}")
     print(f"  OUTPUT  : {out}\n")
     return plan
@@ -213,6 +244,13 @@ if __name__ == "__main__":
     ap.add_argument("--parser", default="regex", choices=["regex", "llm"],
                      help="regex (default, free, instant, fixed keyword list) or llm "
                           "(Qwen2.5-0.5B-Instruct, CPU, ~15-25s/call, generalizes past exact keywords)")
+    ap.add_argument("--removal-mode", default="local", choices=["local", "gpu-inpaint"],
+                     help="local (default, free, CPU, training-free background reveal -- has a real "
+                          "ceiling on footage where the target never exposes clean background in any "
+                          "sampled frame) or gpu-inpaint (same algorithm on GPU, ~15-20x faster, plus a "
+                          "detector-guided video-inpainting fallback for that ceiling case -- costs "
+                          "real GPU time)")
     a = ap.parse_args()
     run(a.instruction, a.clip, a.depth, a.out, trajectory_gpu=a.trajectory_gpu, use_trace_anything=a.use_trace_anything,
-        reuse_trajectory_cache=a.reuse_trajectory_cache, backend_name=a.backend, parser=a.parser)
+        reuse_trajectory_cache=a.reuse_trajectory_cache, backend_name=a.backend, parser=a.parser,
+        removal_mode=a.removal_mode)

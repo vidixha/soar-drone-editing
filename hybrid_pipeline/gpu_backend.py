@@ -42,6 +42,18 @@ class GPUBackend:
         Returns a 16-bit grayscale PNG, higher=closer."""
         raise NotImplementedError
 
+    def remove_objects_inpaint(self, video_bytes: bytes, target: str = None, window: int = 60,
+                               stride: int = 3, confidence_thresh: float = 0.6) -> bytes:
+        """GPU removal with a generative video-inpainting fallback for the
+        case the local/CPU classical path can't handle: an object that never
+        exposes clean background in any sampled frame (e.g. a precision-
+        tracked shot). Localizes the object by appearance (a generic
+        detector, not motion), so it works even where motion-diffing finds
+        nothing -- see removal_inpaint_gpu.py's module docstring for the
+        full story, including a real bug this fixed (residual mask pointed
+        at the wrong region entirely before this). Returns mp4 bytes."""
+        raise NotImplementedError
+
 
 def get_backend(name: str = "modal") -> GPUBackend:
     """Backend factory. Only 'modal' ships today; add another by

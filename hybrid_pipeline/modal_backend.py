@@ -1,13 +1,14 @@
 """Modal implementation of gpu_backend.GPUBackend.
 
 This is one swappable backend, not a dependency of the router itself --
-router.py talks to GPUBackend only. Requires three Modal apps to already be
+router.py talks to GPUBackend only. Requires these Modal apps to already be
 deployed (see each file's own module docstring for exact deploy/download
 commands):
 
-  trajcrafter-test      (render_traj)          -- trajcrafter_pipeline.py
-  depth-extract         (depth_of_bytes)        -- depth_extract.py
-  trace-anything-depth  (depth_sequence_of_bytes) -- trace_anything_depth.py
+  trajcrafter-test      (render_traj)              -- trajcrafter_pipeline.py
+  depth-extract         (depth_of_bytes)             -- depth_extract.py
+  trace-anything-depth  (depth_sequence_of_bytes)    -- trace_anything_depth.py
+  removal-inpaint-gpu   (remove_with_inpaint_fallback) -- removal_inpaint_gpu.py
 """
 import modal
 from gpu_backend import GPUBackend
@@ -30,3 +31,9 @@ class ModalBackend(GPUBackend):
     def depth_single_frame(self, video_bytes):
         fn = modal.Function.from_name("depth-extract", "depth_of_bytes")
         return fn.remote(video_bytes)
+
+    def remove_objects_inpaint(self, video_bytes, target=None, window=60, stride=3,
+                               confidence_thresh=0.6):
+        fn = modal.Function.from_name("removal-inpaint-gpu", "remove_with_inpaint_fallback")
+        return fn.remote(video_bytes, target=target, window=window, stride=stride,
+                         confidence_thresh=confidence_thresh)
