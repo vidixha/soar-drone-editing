@@ -52,7 +52,8 @@ image = (
     .pip_install("torch==2.4.0", "torchvision==0.19.0", index_url="https://download.pytorch.org/whl/cu121")
     .pip_install("opencv-python-headless", "numpy", "kornia", "av", "addict", "einops", "future",
                  "scipy", "matplotlib", "scikit-image", "imageio", "imageio-ffmpeg", "pyyaml",
-                 "requests", "timm", "yapf", "tqdm", "ultralytics")
+                 "requests", "timm", "yapf", "tqdm", "ultralytics",
+                 "transformers>=4.45", "huggingface_hub<1.0")
     .run_commands(
         "git clone --depth 1 https://github.com/sczhou/ProPainter.git /opt/ProPainter",
         "mkdir -p /opt/ProPainter/weights",

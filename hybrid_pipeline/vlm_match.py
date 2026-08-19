@@ -48,7 +48,7 @@ def _load():
     global _model, _proc
     if _model is None:
         from transformers import CLIPModel, CLIPProcessor
-        _model = CLIPModel.from_pretrained(MODEL_ID)
+        _model = CLIPModel.from_pretrained(MODEL_ID, use_safetensors=True)
         _proc = CLIPProcessor.from_pretrained(MODEL_ID)
     return _model, _proc
 
