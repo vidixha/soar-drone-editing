@@ -23,9 +23,10 @@ directly. modal_backend.py ships the one concrete implementation used by
 default; swap in another by implementing GPUBackend and passing
 --backend <name> (after registering it in gpu_backend.get_backend()).
 
-This branch (w4/hybrid_pipeline) ships the NL router, object removal, and
-trajectory editing. Weather modules and the insertion prototype live on a
-separate branch.
+Weather is dispatched last (appearance overlay). All kinds use
+hybrid_pipeline/reconstruction_weather (metric cameras + depth). Same
+--instruction surface as remove / trajectory: "add snow", "make it rainy",
+"add fog", "add a sandstorm".
 """
 import argparse, re, json, sys, os
 import numpy as np
@@ -154,8 +155,30 @@ def _traj_gpu(backend, frames, motion, direction, fps, sample_h=None, sample_w=N
 TRAJ_CACHE_VIDEO = "/tmp/soar_router_traj_cache.mp4"
 TRAJ_CACHE_DEPTH = "/tmp/soar_router_traj_cache_depth.npz"
 
+def ensure_reconstruction(clip, reconstruction_dir=None, reconstruct=False):
+    """Reuse an existing reconstruction, or run reconstruction_weather.reconstruct."""
+    if reconstruction_dir and os.path.isfile(os.path.join(reconstruction_dir, "reconstruction.json")):
+        return reconstruction_dir
+    if not reconstruct:
+        return reconstruction_dir or None
+    import subprocess, tempfile
+    out = reconstruction_dir or tempfile.mkdtemp(prefix="soar_recon_")
+    os.makedirs(out, exist_ok=True)
+    if os.listdir(out):
+        raise FileExistsError(f"reconstruction output is not empty: {out}")
+    hp = os.path.dirname(os.path.abspath(__file__))
+    env = os.environ.copy()
+    env["PYTHONPATH"] = hp + os.pathsep + env.get("PYTHONPATH", "")
+    subprocess.run(
+        [sys.executable, "-m", "reconstruction_weather", "reconstruct", clip, out],
+        cwd=hp, env=env, check=True,
+    )
+    return out
+
+
 def execute(clip, ops, depth_path, out_path, fps=30, trajectory_gpu=False, use_trace_anything=False,
-            reuse_trajectory_cache=False, save_trajectory_cache=True, backend=None, removal_mode="local"):
+            reuse_trajectory_cache=False, save_trajectory_cache=True, backend=None, removal_mode="local",
+            reconstruction_dir=None, weather_gpu=False):
     """backend: a gpu_backend.GPUBackend instance (defaults to the Modal
     backend if not given -- see gpu_backend.get_backend()). Only constructed
     lazily, and only if a GPU op actually needs to fire, so a removal-only
@@ -186,9 +209,11 @@ def execute(clip, ops, depth_path, out_path, fps=30, trajectory_gpu=False, use_t
     a real render every time. save_trajectory_cache: persist a fresh GPU
     result for later reuse (on by default whenever a real render happens)."""
     frames = M.load_clip(clip)
+    geometry_dirty = False
     needs_gpu = (use_trace_anything or (removal_mode == "gpu-inpaint" and any(o["module"] == "remove" for o in ops))
                  or (trajectory_gpu and any(o["module"] == "trajectory" for o in ops)
-                     and not (reuse_trajectory_cache and os.path.exists(TRAJ_CACHE_VIDEO))))
+                     and not (reuse_trajectory_cache and os.path.exists(TRAJ_CACHE_VIDEO)))
+                 or (weather_gpu and any(o["module"] == "weather" for o in ops)))
     if backend is None and needs_gpu:
         backend = get_backend()
     depth = _depth_seq_gpu(backend, frames, fps) if use_trace_anything else M.load_depth(depth_path, frames[0].shape[:2])
@@ -209,10 +234,12 @@ def execute(clip, ops, depth_path, out_path, fps=30, trajectory_gpu=False, use_t
             if reuse_trajectory_cache and os.path.exists(TRAJ_CACHE_VIDEO) and os.path.exists(TRAJ_CACHE_DEPTH):
                 frames = M.load_clip(TRAJ_CACHE_VIDEO)
                 depth = np.load(TRAJ_CACHE_DEPTH)["depth"].astype(np.float32)
+                geometry_dirty = True
                 trace.append(f"trajectory({p['motion']},{p['dir']}) -> reused cached result (no GPU spend)")
             elif trajectory_gpu:
                 if backend is None: backend = get_backend()
                 frames, pose, depth = _traj_gpu(backend, frames, p["motion"], p["dir"], fps, use_trace_anything=use_trace_anything)
+                geometry_dirty = True
                 backbone = "per-frame depth backend" if use_trace_anything else "single-frame depth backend"
                 trace.append(f"trajectory({p['motion']},{p['dir']}) -> render ✓ (GPU, depth refreshed via {backbone})")
                 if save_trajectory_cache:
@@ -224,35 +251,66 @@ def execute(clip, ops, depth_path, out_path, fps=30, trajectory_gpu=False, use_t
         elif mod == "insert":
             trace.append(f"insert({p['object']}) -> not implemented on this branch [prototype lives elsewhere]")
         elif mod == "weather":
-            # Whatever depth was loaded at the top of execute() -- a single
-            # snapshot by default, or the per-frame sequence with
-            # use_trace_anything -- and, if trajectory already ran, that's
-            # the POST-trajectory refreshed depth, not the original clip's,
-            # since weather has to match whatever geometry the frames
-            # currently show. Only fog/snow take an intensity level in the
-            # original implementation -- rain/sandstorm don't model one.
-            kwargs = {"intensity": p["intensity"]} if p["kind"] in ("fog", "snow") else {}
-            frames = W.WEATHER[p["kind"]](frames, depth, **kwargs)
-            per_frame = "per-frame depth" if (depth.ndim == 3) else "single-frame depth (may drift on camera motion)"
-            trace.append(f"weather({p['kind']},{p['intensity']}) ✓ ({per_frame})")
+            if weather_gpu:
+                if backend is None:
+                    backend = get_backend()
+                import tempfile
+                tmp = tempfile.mktemp(suffix=".mp4"); M.save_video(frames, tmp, fps)
+                out_bytes = backend.apply_weather(
+                    open(tmp, "rb").read(),
+                    kind=p["kind"],
+                    intensity=p.get("intensity", "medium"),
+                    fps=fps,
+                )
+                res = tempfile.mktemp(suffix=".mp4"); open(res, "wb").write(out_bytes)
+                frames = M.load_clip(res)
+                geometry_dirty = False
+                trace.append(
+                    f"weather({p['kind']},{p.get('intensity','medium')}) ✓ "
+                    f"(GPU, Modal reconstruct+simulate)"
+                )
+            else:
+                recon = reconstruction_dir
+                if p["kind"] in W.METRIC_KINDS and (geometry_dirty or not recon):
+                    import tempfile
+                    tmp = tempfile.mktemp(suffix=".mp4"); M.save_video(frames, tmp, fps)
+                    recon = ensure_reconstruction(tmp, None, reconstruct=True)
+                    reconstruction_dir = recon
+                    geometry_dirty = False
+                frames, detail = W.apply_weather(
+                    frames, depth, p["kind"], p.get("intensity", "medium"),
+                    reconstruction_dir=recon, fps=fps,
+                )
+                trace.append(f"weather({p['kind']},{p.get('intensity','medium')}) ✓ ({detail})")
     M.save_video(frames, out_path, fps)
     return trace
 
 def run(instruction, clip, depth, out, trajectory_gpu=False, use_trace_anything=False,
-        reuse_trajectory_cache=False, backend_name="modal", parser="regex", removal_mode="local"):
+        reuse_trajectory_cache=False, backend_name="modal", parser="regex", removal_mode="local",
+        reconstruction_dir=None, reconstruct=False, weather_gpu=False):
     ops = (parse_llm if parser == "llm" else parse)(instruction)
     plan = schedule(ops)
-    needs_backend = trajectory_gpu or use_trace_anything or (removal_mode == "gpu-inpaint"
-                                                              and any(o["module"] == "remove" for o in ops))
+    has_weather = any(o["module"] == "weather" for o in plan)
+    needs_backend = (trajectory_gpu or use_trace_anything or weather_gpu
+                     or (removal_mode == "gpu-inpaint"
+                         and any(o["module"] == "remove" for o in ops)))
     backend = get_backend(backend_name) if needs_backend else None
+    needs_metric = (has_weather and not weather_gpu
+                    and any(o["params"].get("kind") in W.METRIC_KINDS for o in plan if o["module"] == "weather"))
+    reconstruction_dir = ensure_reconstruction(
+        clip, reconstruction_dir, reconstruct=reconstruct or needs_metric,
+    )
     print(f'\n  INSTRUCTION: "{instruction}"')
     print(f"  PARSER  : {parser}")
     print(f"  REMOVAL : {removal_mode}")
+    if reconstruction_dir:
+        print(f"  RECON   : {reconstruction_dir}")
     print(f"  PARSED  : {json.dumps(ops)}")
-    print(f"  SCHEDULE: {json.dumps(plan)}   (remove→insert→trajectory)")
+    print(f"  SCHEDULE: {json.dumps(plan)}   (remove→insert→trajectory→weather)")
     print( "  EXECUTE :")
     for line in execute(clip, plan, depth, out, trajectory_gpu=trajectory_gpu, use_trace_anything=use_trace_anything,
-                        reuse_trajectory_cache=reuse_trajectory_cache, backend=backend, removal_mode=removal_mode):
+                        reuse_trajectory_cache=reuse_trajectory_cache, backend=backend, removal_mode=removal_mode,
+                        reconstruction_dir=reconstruction_dir, weather_gpu=weather_gpu):
         print(f"      - {line}")
     print(f"  OUTPUT  : {out}\n")
     return plan
@@ -264,6 +322,9 @@ if __name__ == "__main__":
     ap.add_argument("--instruction", required=True)
     ap.add_argument("--out", required=True)
     ap.add_argument("--trajectory-gpu", action="store_true", help="fire a real trajectory render via the GPU backend")
+    ap.add_argument("--weather-gpu", action="store_true",
+                     help="run reconstruct+weather on the GPU backend (Modal). "
+                          "Skip the local Pi3X/AerialMetric env.")
     ap.add_argument("--use-trace-anything", action="store_true",
                      help="use the per-frame depth backend instead of the single-snapshot default (extra GPU call(s), opt-in only)")
     ap.add_argument("--reuse-trajectory-cache", action="store_true",
@@ -278,7 +339,12 @@ if __name__ == "__main__":
                           "sampled frame) or gpu-inpaint (same algorithm on GPU, ~15-20x faster, plus a "
                           "detector-guided video-inpainting fallback for that ceiling case -- costs "
                           "real GPU time)")
+    ap.add_argument("--reconstruction-dir", default="",
+                     help="reuse a reconstruction artifact for snow/rain (otherwise built from --clip)")
+    ap.add_argument("--reconstruct", action="store_true",
+                     help="force a fresh reconstruction even if --reconstruction-dir exists")
     a = ap.parse_args()
     run(a.instruction, a.clip, a.depth, a.out, trajectory_gpu=a.trajectory_gpu, use_trace_anything=a.use_trace_anything,
         reuse_trajectory_cache=a.reuse_trajectory_cache, backend_name=a.backend, parser=a.parser,
-        removal_mode=a.removal_mode)
+        removal_mode=a.removal_mode, reconstruction_dir=a.reconstruction_dir or None,
+        reconstruct=a.reconstruct, weather_gpu=a.weather_gpu)

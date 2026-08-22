@@ -3,7 +3,7 @@
 router.py never imports a specific GPU provider directly -- it only calls
 methods on a GPUBackend instance. Any provider (Modal, a local GPU via
 subprocess, a different cloud API, a bare-metal box behind a REST endpoint)
-can be plugged in by implementing these three methods; nothing else in the
+can be plugged in by implementing these methods; nothing else in the
 router needs to change.
 
 modal_backend.py ships one concrete implementation.
@@ -11,7 +11,7 @@ modal_backend.py ships one concrete implementation.
 
 
 class GPUBackend:
-    """Duck-typed interface -- subclass and implement these three methods.
+    """Duck-typed interface -- subclass and implement the methods you use.
     All inputs/outputs are raw bytes so a backend can be a remote call, a
     local subprocess, or anything else that can move bytes."""
 
@@ -52,6 +52,14 @@ class GPUBackend:
         nothing -- see removal_inpaint_gpu.py's module docstring for the
         full story, including a real bug this fixed (residual mask pointed
         at the wrong region entirely before this). Returns mp4 bytes."""
+        raise NotImplementedError
+
+    def apply_weather(self, video_bytes: bytes, kind: str = "snow",
+                      intensity: str = "medium", fps: float = 30.0) -> bytes:
+        """Reconstruct metric cameras+depth from video_bytes, simulate
+        weather (snow/rain/fog/sandstorm), return the weathered clip as
+        mp4 bytes. Same reconstruct+simulate path as local
+        reconstruction_weather, just remote."""
         raise NotImplementedError
 
 

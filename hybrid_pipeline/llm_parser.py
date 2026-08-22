@@ -35,6 +35,7 @@ Valid modules and their params:
 - {"module":"remove","params":{"target":"<object noun>"}}
 - {"module":"trajectory","params":{"motion":"orbit|pan|dolly|fly|zoom|crane","dir":"left|right|forward|backward|in|out|up|down"}}
 - {"module":"insert","params":{"object":"car|vehicle|truck|person|object"}}
+- {"module":"weather","params":{"kind":"fog|rain|snow|sandstorm","intensity":"light|medium|heavy"}}
 Output ONLY a JSON array, no prose. Order operations as they should logically run."""
 
 _model = None

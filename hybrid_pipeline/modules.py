@@ -6,8 +6,8 @@ validated per-module prototypes:
 
 The router (router.py) calls these; it never re-implements image ops.
 
-(Weather modules -- fog/rain/snow/sandstorm -- and the insertion prototype
-live on a separate branch and are not included here.)
+Weather dispatch lives in weather.py (metric adapter for snow/rain/fog/
+sandstorm). The insertion prototype is still a no-op on this branch.
 """
 import cv2, numpy as np, os, subprocess, tempfile
 
@@ -22,10 +22,20 @@ def load_clip(path, max_side=1280):
     cap.release()
     return frames
 
+def _ffmpeg():
+    for candidate in (os.environ.get("FFMPEG"), "ffmpeg",
+                      "/workspace/.tooling/ffmpeg/ffmpeg"):
+        if not candidate:
+            continue
+        if candidate == "ffmpeg" or os.path.isfile(candidate):
+            return candidate
+    return "ffmpeg"
+
+
 def save_video(frames, path, fps=30):
     d = tempfile.mkdtemp()
     for i, fr in enumerate(frames): cv2.imwrite(f"{d}/{i:05d}.png", fr)
-    subprocess.run(["ffmpeg", "-y", "-framerate", str(fps), "-i", f"{d}/%05d.png", "-vf",
+    subprocess.run([_ffmpeg(), "-y", "-framerate", str(fps), "-i", f"{d}/%05d.png", "-vf",
         "pad=ceil(iw/2)*2:ceil(ih/2)*2", "-c:v", "libx264", "-pix_fmt", "yuv420p",
         "-movflags", "+faststart", "-crf", "20", path], check=True, capture_output=True)
     subprocess.run(["rm", "-rf", d])
