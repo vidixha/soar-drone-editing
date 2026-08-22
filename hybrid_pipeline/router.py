@@ -31,9 +31,15 @@ import argparse, re, json, sys, os
 import numpy as np
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import modules as M
+import weather as W
 from gpu_backend import get_backend
 
-MODULE_ORDER = {"remove": 0, "insert": 1, "trajectory": 2}
+# weather last: it's an appearance-only overlay on the final frames, so it
+# must come after any content/geometry edit (remove, trajectory) -- applying
+# it earlier would mean removal or trajectory re-touching pixels weather
+# already painted, and trajectory's own depth refresh would have nothing to
+# do with the weather layer anyway since it isn't real scene geometry.
+MODULE_ORDER = {"remove": 0, "insert": 1, "trajectory": 2, "weather": 3}
 
 def parse(text):
     """NL -> ordered op-list. Rule-based; deterministic; handles compound."""
@@ -56,6 +62,16 @@ def parse(text):
             d = next((dd for dd in ["left","right","forward","backward","in","out","up","down"]
                       if re.search(rf"\b{dd}\b", t)), "left")
             ops.append({"module": "trajectory", "params": {"motion": mv, "dir": d}}); break
+    # weather: match the noun ("fog"/"foggy") rather than requiring a verb --
+    # "make it foggy" and "add fog" should both work, and there's no fixed
+    # verb list that covers every natural phrasing the way remove/insert do.
+    for kind, kws in [("fog", ["fog", "foggy", "misty", "haze", "hazy"]),
+                      ("rain", ["rain", "rainy", "raining", "drizzle"]),
+                      ("snow", ["snow", "snowy", "snowing", "blizzard"]),
+                      ("sandstorm", ["sandstorm", "dust storm", "duststorm"])]:
+        if any(re.search(rf"\b{kw}\b", t) for kw in kws):
+            intensity = next((i for i in ["light", "medium", "heavy"] if re.search(rf"\b{i}\b", t)), "medium")
+            ops.append({"module": "weather", "params": {"kind": kind, "intensity": intensity}}); break
     return ops
 
 def parse_llm(text):
@@ -207,6 +223,18 @@ def execute(clip, ops, depth_path, out_path, fps=30, trajectory_gpu=False, use_t
                 trace.append(f"trajectory({p['motion']},{p['dir']}) -> GPU render [use --trajectory-gpu to fire]")
         elif mod == "insert":
             trace.append(f"insert({p['object']}) -> not implemented on this branch [prototype lives elsewhere]")
+        elif mod == "weather":
+            # Whatever depth was loaded at the top of execute() -- a single
+            # snapshot by default, or the per-frame sequence with
+            # use_trace_anything -- and, if trajectory already ran, that's
+            # the POST-trajectory refreshed depth, not the original clip's,
+            # since weather has to match whatever geometry the frames
+            # currently show. Only fog/snow take an intensity level in the
+            # original implementation -- rain/sandstorm don't model one.
+            kwargs = {"intensity": p["intensity"]} if p["kind"] in ("fog", "snow") else {}
+            frames = W.WEATHER[p["kind"]](frames, depth, **kwargs)
+            per_frame = "per-frame depth" if (depth.ndim == 3) else "single-frame depth (may drift on camera motion)"
+            trace.append(f"weather({p['kind']},{p['intensity']}) ✓ ({per_frame})")
     M.save_video(frames, out_path, fps)
     return trace
 
