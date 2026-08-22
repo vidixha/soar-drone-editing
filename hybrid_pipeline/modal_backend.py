@@ -9,6 +9,7 @@ commands):
   depth-extract         (depth_of_bytes)             -- depth_extract.py
   trace-anything-depth  (depth_sequence_of_bytes)    -- trace_anything_depth.py
   removal-inpaint-gpu   (remove_with_inpaint_fallback) -- removal_inpaint_gpu.py
+  aerie-weather         (weather_of_bytes)             -- weather_pipeline.py
 """
 import modal
 from gpu_backend import GPUBackend
@@ -37,3 +38,7 @@ class ModalBackend(GPUBackend):
         fn = modal.Function.from_name("removal-inpaint-gpu", "remove_with_inpaint_fallback")
         return fn.remote(video_bytes, target=target, window=window, stride=stride,
                          confidence_thresh=confidence_thresh)
+
+    def apply_weather(self, video_bytes, kind="snow", intensity="medium", fps=30.0):
+        fn = modal.Function.from_name("aerie-weather", "weather_of_bytes")
+        return fn.remote(video_bytes, kind=kind, intensity=intensity, fps=float(fps))

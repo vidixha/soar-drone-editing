@@ -1,0 +1,6 @@
+[submodule "third_party/Pi3"]
+	path = third_party/Pi3
+	url = https://github.com/yyfz/Pi3.git
+[submodule "third_party/AerialMetric"]
+	path = third_party/AerialMetric
+	url = https://github.com/kuieless/AerialMetric.git
